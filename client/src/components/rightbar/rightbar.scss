@@ -1,0 +1,141 @@
+.rightbar {
+  // margin-left: 0.75vw;
+  background-color: white;
+  border-radius: .25rem;
+  height: 100vh;
+  width: 25vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  overflow: scroll;
+  .user {
+    display: flex;
+    gap: 0.625rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.25rem;
+    .detail {
+      display: flex;
+      gap: 0.625rem;
+      align-items: center;
+      img {
+        height: 1.8rem;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+      }
+    }
+    .action {
+      display: flex;
+      gap: 0.625rem;
+      button {
+        padding: 0.2rem 0.6rem;
+        border-radius: 0.2rem;
+        border: none;
+        outline: none;
+        font-weight: 500;
+        cursor: pointer;
+        &:first-child {
+          background-color: rgb(57, 57, 248);
+          color: white;
+        }
+        &:last-child {
+          background-color: red;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .suggestion {
+    background-color: white;
+    padding: 1.2rem;
+    border-radius: 0.6rem;
+    span {
+      color: rgb(72, 68, 68);
+    }
+    .user {
+      display: flex;
+      gap: 0.625rem;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.25rem;
+      .detail {
+        display: flex;
+        gap: 0.625rem;
+        align-items: center;
+        img {
+          height: 1.8rem;
+          aspect-ratio: 1/1;
+          border-radius: 50%;
+        }
+      }
+      .action {
+        display: flex;
+        gap: 0.625rem;
+        button {
+          padding: 0.2rem 0.6rem;
+          border-radius: 0.2rem;
+          border: none;
+          outline: none;
+          font-weight: 500;
+          cursor: pointer;
+          &:first-child {
+            background-color: rgb(57, 57, 248);
+            color: white;
+          }
+          &:last-child {
+            background-color: red;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  .activity {
+    background-color: white;
+    padding: 1.2rem;
+    border-radius: 0.6rem;
+    span {
+      color: rgb(34, 32, 32);
+    }
+    .user {
+      .detail {
+        span {
+          font-size: 0.75rem;
+        }
+      }
+      .action {
+        p {
+          font-size: 1rem;
+        }
+        span {
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+
+  .online {
+    background-color: white;
+    padding: 1.2rem;
+    border-radius: 0.625rem;
+
+    .user {
+      display: flex;
+      position: relative;
+      gap: 0.625rem;
+      .detail {
+        .status {
+          height: 0.8rem;
+          aspect-ratio: 1/1;
+          border-radius: 50%;
+          background-color: green;
+          position: absolute;
+          top: 0rem;
+          left: 1.2rem;
+        }
+      }
+    }
+  }
+}

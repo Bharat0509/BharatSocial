@@ -1,0 +1,128 @@
+.comments {
+  .currUserComment {
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    padding: 0.625rem;
+    display: flex;
+    gap: 0.625rem;
+    justify-content: space-between;
+    img {
+      height: 2rem;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    input {
+      flex: 10;
+      border: none;
+      outline: none;
+      border: 1px solid gray;
+      border-radius: 0.25rem;
+      padding: 0 0.4rem;
+      overflow: scroll;
+    }
+    button {
+      flex: 1;
+      border: none;
+      outline: none;
+      background-color: blue;
+      color: white;
+      border-radius: 0.25rem;
+      font-weight: bolder;
+      cursor: pointer;
+    }
+  }
+  .comment {
+    padding: 0.625rem;
+    display: flex;
+    gap: 1.625rem;
+    justify-content: space-between;
+    img {
+      height: 2rem;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .info {
+      span {
+        font-weight: 500;
+        color: black;
+      }
+      p {
+        font-size: 0.8rem;
+      }
+    }
+    .date {
+      width: 8rem;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      align-items: center;
+      color: gray;
+    }
+  }
+}
+// ------------------Media-Query-----------------------
+@media screen and (max-width: 600px) {
+  .comments {
+    .currUserComment {
+      img {
+        height: 1.6rem;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      input {
+        flex: 5;
+        border: none;
+        outline: none;
+        border: 1px solid gray;
+        border-radius: 0.25rem;
+        padding: 0 0.3rem;
+        overflow: scroll;
+      }
+      button {
+        flex: 1;
+        border: none;
+        outline: none;
+        background-color: blue;
+        color: white;
+        font-size: 0.6rem;
+        width: 1.2rem;
+        border-radius: 0.2rem;
+        font-weight: bolder;
+        cursor: pointer;
+      }
+    }
+    .comment {
+      padding: 0.625rem;
+      display: flex;
+      gap: 1.2rem;
+      justify-content: space-between;
+      img {
+        height: 1.6rem;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      .info {
+        span {
+          font-weight: 500;
+          color: black;
+        }
+        p {
+          font-size: 0.5rem;
+        }
+      }
+      .date {
+        width: 8rem;
+        font-size: 0.6rem;
+        display: flex;
+        align-items: center;
+        align-items: center;
+        color: gray;
+      }
+    }
+  }
+}

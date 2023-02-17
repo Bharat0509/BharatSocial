@@ -1,0 +1,68 @@
+.stories{
+    display: flex;
+    gap:.525rem;
+    .story_card_create{
+        
+        img{
+            height: 12rem;
+            width: 8rem;
+            border-radius: .625rem;
+            object-fit: cover;
+
+        }
+        height: 12rem;
+        width: 8rem;
+        border-radius: .625rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        .add{
+           
+            font-size: 2rem;
+            color: white;
+            height: 1.6rem;
+            position: absolute;
+            width:1.6rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(30, 112, 30);   
+            border-radius: 50%;
+            object-fit: cover;  
+            top: 8rem;
+            left: 1rem;
+        }
+        span
+        {
+            position: absolute;
+            left:0.5rem;
+            top: 10rem;
+            z-index: 10;
+            font-size: 14px;
+            color: white;
+
+        }
+    }
+    .story-card{
+        border-radius: .625rem;
+        position: relative;
+        img{
+            height: 12rem;
+            width: 8rem;
+            border-radius: .625rem;
+
+
+        }
+        span
+        {
+            position: absolute;
+            left:0.5rem;
+            top: 10rem;
+            z-index: 10;
+            font-size: 14px;
+            color: white;
+
+        }
+    }
+}

@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Roboto&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+
+}
+button{
+    border: none;
+    outline: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    background-color: rgb(228, 230, 246);
+    font-size: 1vw;
+}
+
+/* ......................................................................................................... */
+.main {
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.nav {
+    width: 100vw;
+}
+
+.sub-main {
+    display: flex;
+    margin-top: 1vh;
+    /* margin: .625rem 1.625rem; */
+    align-items: center;
+    justify-content: center;
+    gap: 1vw;
+    padding: .75vw;
+}
+.middle{
+   width:53vw;
+   
+}
+ @media screen and (max-width:1200px) {
+    body {
+        font-size: .8rem;
+
+    }
+
+    .right {
+        display: none;
+    }
+    .middle{
+        width: 80vw;
+    }
+
+}
+
+@media screen and (max-width:768px) {
+    .option span {
+        font-size: .75rem;
+    }
+
+    .left-navIcons {
+        background-color: red;
+    }
+
+    .sub-main {
+        margin: .625rem;
+    }
+
+    .left {
+        display: none;
+    }
+}
+
+@media screen and (max-width:600px) {
+    body {
+        font-size: .6rem;
+    }
+    .sub-main{
+        width: 87vw;
+    }
+} 

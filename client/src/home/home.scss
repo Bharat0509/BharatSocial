@@ -1,0 +1,19 @@
+.main_container {
+  width: 60vw;
+  background-color: rgb(228, 230, 246);
+  height: 100vh;
+  overflow: scroll;
+  .homepage {
+    margin-top: 50px;
+    display: flex;
+    gap: 0.625rem;
+    margin: 0.625rem 0;
+    flex-direction: column;
+  }
+}
+@media screen and (max-width:1200px) {
+  .main_container{
+    width: 92vw;
+  }
+  
+}
