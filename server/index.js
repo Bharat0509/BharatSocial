@@ -26,6 +26,11 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
+
+//dotenv Configuration
+dotenv.config({ path: path.resolve(__dirname, './.env') })
+
+
 // MidlleWares
 app.use(bodyParser.json({limit: '30mb',extended: true}))
 
@@ -43,7 +48,7 @@ const corsOptions = {
  };
 app.use(cors(corsOptions))
 
-dotenv.config()
+
 
 // ---------------------------
 mongoose.connect(process.env.MONGO_DB,
