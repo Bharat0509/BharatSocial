@@ -42,7 +42,7 @@ app.use(bodyParser.urlencoded({limit: '30mb',extended: true}))
 
 //Setiing up cors options
 const corsOptions = {
-    origin:["http://localhost:4000","http://localhost:3000","http://localhost:3000/","http://localhost:4000/"],
+    origin:["http://localhost:4000","http://localhost:3000","http://localhost:3000/","http://localhost:4000/","https://bharatsocial-ppi2.onrender.com",'https://bharatsocial-ppi2.onrender.com/'],
     optionsSuccessStatus: 200,
     credentials: true,
  };
