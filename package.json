@@ -2,10 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server/index.js",
   "type": "module",
   "scripts": {
-    "start": "cd ../client && npm run build && cd .. && nodemon index.js",
+    "build": "npm install && cd ../client && npm install && cd.. ",
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
   },
