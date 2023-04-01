@@ -1,61 +1,43 @@
 import UserModel from "../Models/userModels.js";
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken'
-//Register new user
-export const registerUser=async (req,res)=>{
-    const {username,password,firstname,lastname}=req.body;
-    const salt=await bcrypt.genSalt(10);
-    const hashedPassword=await bcrypt.hash(password,salt);
-    const data={
-        username,
-        password:hashedPassword,
-        firstname,
-        lastname
-    }
-    const newUser=new UserModel(data);
+import  sendToken  from "../utils/jwtToken.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
 
+
+//Register new user
+export const registerUser=async (req,res,next)=>{
+    const {username,password,email,name}=req.body;
     try {
-       const user= await newUser.save();
-        const token=jwt.sign({
-            username:user.username,
-            id:user._id
-        },process.env.JWT_KEY,{expiresIn:'1h'})
-        res.status(200).json({newUser,token});
-    } catch (error) {
-        res.status(500).json({message:error.message})
+        const user=await UserModel.create({username,password,email,name});
+        if(!user) return next(new ErrorHandler("User Not Found",404))
+        sendToken(user,201,res)
+    } 
+    catch (error) {
+       return next(new ErrorHandler(`Internal Server Error : ${error} `,500))
     }
 }
 
 //Login user
 
-export const loginUser=async (req,res)=>{
-    const {username,password}=req.body;
+export const loginUser=async (req,res,next)=>{
+        const {username,password}=req.body;
 
-    try {
-        const user=await UserModel.findOne({username:username})
+        try {
+            
+             const user=await UserModel.findOne({username:username})
+             if(!user) return next(new ErrorHandler("User Not Found",404))
        
-        if(user){
+        
             const isValid=await bcrypt.compare(password,user.password);
             
-           if(!isValid){res.status(400).json("Wrong Password !!")
+           if(!isValid){
+            return next(new ErrorHandler("Access Denied",403))
            }
            else{
-            const token=jwt.sign({
-                username:user.username,
-                id:user._id
-            },process.env.JWT_KEY,{expiresIn:'1h'});
-            res.status(200).json({user,token})
+            sendToken(user,200,res);
            }
-
-        }
-        else{
-            res.status(404).json("User does not exist !")
-        }
-        
-    } catch (error) {
-    res.send(404).json({
-        message:error.message
-    }
-    )
-    }
+        } 
+        catch (error) {
+            return next(new ErrorHandler(`Unknown Error Encountered : ${error} `,404))
+        } 
 }

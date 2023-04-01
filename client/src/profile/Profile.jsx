@@ -4,34 +4,24 @@ import { MdLocationPin, MdVerifiedUser, MdEmail } from 'react-icons/md'
 import { BsThreeDots } from 'react-icons/bs'
 import Post from '../components/chats/Post'
 import { useDispatch, useSelector } from 'react-redux'
-import { followUser } from './API/followUser'
-import axios from 'axios'
-import { useEffect } from 'react'
-import { useState } from 'react'
+
+import EditIcon from '@mui/icons-material/Edit';
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import { getPostData, getUserData } from '../Actions/UserAction'
+import PostSkeleton from '../components/Skeltons/PostSkeleton'
 
 const Profile = () => {
-  const id = window.location.pathname.split('/')[2];
-  const currentUser = useSelector(state => state.authReducers.authData.user)
-  const [userData, setUserData] = useState();
-  const [userPosts, setUserPosts] = useState();
-  const [loading, setLoading] = useState(false);
-  const [following, setFollowing] = useState(false)
-  const [followings, setFollowings] = useState(0)
+  const params = useParams();
+  const dispatch = useDispatch();
 
-  const getUserData = async (id) => {
-    const res = await axios.get(`https://bharatsocial-infc.onrender.com/user/${id}`).then(res => res.data);
-    setUserData(res);
-    console.log(currentUser._id, res);
-    const status = userData.followers.includes(currentUser._id);
-    setFollowing(status);
-    setFollowings(userData.followings.length)
-  }
-  const getPostData = async (id) => {
-    const res = await axios.get(`https://bharatsocial-infc.onrender.com/user/posts/${id}`).then(res => res.data);
-    setUserPosts(res);
+  const { profile: currentUser, loading: userLoading, error } = useSelector(state => state.profileReducer)
+  const { posts, loading: postsLoading, error: postsError } = useSelector(state => state.postsReducer)
+  const { isDeleted } = useSelector(state => state.postReducer)
 
+  const [showOption, setShowOption] = useState(false)
 
-  }
   function capitalize(input) {
     var words = input?.split(' ');
     var CapitalizedWords = [];
@@ -40,13 +30,28 @@ const Profile = () => {
     });
     return CapitalizedWords.join(' ');
   }
+
   useEffect(() => {
-    const id = window.location.pathname.split('/')[2];
-    getUserData(id);
-    getPostData(id);
 
 
-  }, [id])
+    if (currentUser._id != params.id) {
+      dispatch(getUserData(params.id));
+      dispatch(getPostData(params.id));
+    }
+    else {
+      dispatch(getPostData(params.id));
+    }
+
+    if (error) {
+      toast(error);
+    }
+    if (isDeleted) {
+      toast("Post Deleted Successfully")
+      dispatch(getPostData(params.id));
+
+    }
+
+  }, [params.id, error, isDeleted])
 
   const editProfilePic = () => {
 
@@ -54,22 +59,32 @@ const Profile = () => {
 
   const editCoverPic = () => {
   }
+  const followSubmitHandler = () => {
+
+  }
 
 
   return (
     <>{
-      !loading
+      !userLoading
       &&
       <div className="profile">
 
         <div className="img">
-          <img className='bannerIMG' src={userData?.coverPicture} alt="" onClick={editCoverPic} />
-          <img src={userData?.profilePicture} alt="" className="profileIMG" onClick={editProfilePic} />
+          <div>
+            <img className='bannerIMG' src={currentUser?.coverPicture} alt="" onClick={editCoverPic} onMouseEnter={e => setShowOption(true)} onMouseLeave={e => setShowOption(false)} />
+            <span className='editOption'>
+              {showOption && <EditIcon />}
+            </span>
+          </div>
+          <div>
+            <img src={currentUser?.profilePicture} alt="" className="profileIMG" onClick={editProfilePic} />
+          </div>
         </div>
 
         <div className="userDetails">
           <span className="userName">
-            {capitalize(userData?.username)}
+            {capitalize(currentUser?.username)}
           </span>
           <div className="options">
             <div className="socialMedia">
@@ -87,7 +102,7 @@ const Profile = () => {
               </div>
               <div className="name">
                 <MdVerifiedUser />
-                <span>{capitalize(userData?.username)}</span>
+                <span>{capitalize(currentUser?.username)}</span>
               </div>
             </div>
             <div className="contact">
@@ -96,17 +111,22 @@ const Profile = () => {
             </div>
           </div>
           <div className="uStatus">
-            <div className="followers"><span>Followers : </span>{userData?.followers.length}</div>
-            <div className="followings"><span>Followings : </span>{followings}</div>
-            <div className="followUser button" onClick={() => followUser(id, currentUser._id, setFollowings, setFollowing)}>{following ? "Following" : "Follow"}</div>
+            <div className="followers"><span>Followers : </span>{currentUser?.followers?.length}</div>
+            <div className="followings"><span>Followings : </span>{currentUser?.following?.length}</div>
+            <div className="followUser button" onClick={followSubmitHandler}>Follow</div>
           </div>
 
         </div>
         <div className="posts">
-          {!loading &&
-            userPosts?.map((post) => {
-              return (<Post key={post._id} data={post} />)
+          {!postsLoading ?
+            posts?.map((post) => {
+              return (<PostSkeleton key={post._id} data={post} />)
             })
+            :
+            <>
+              <PostSkeleton loading={true} />
+              <PostSkeleton loading={true} />
+            </>
           }
         </div>
       </div>}

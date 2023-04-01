@@ -3,84 +3,85 @@ import { Link } from 'react-router-dom'
 import { BsFillImageFill, BsFillCameraReelsFill, BsCalendarPlus } from 'react-icons/bs'
 import { FaTimes } from 'react-icons/fa'
 import { BiLocationPlus } from 'react-icons/bi'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { SharePost } from '../../Actions/UploadAction'
-import axios from 'axios'
+import { createPost, getTimeLinePosts } from '../../Actions/PostAction'
+import { toast } from 'react-toastify'
+import { CREATE_POST_RESET } from '../../Constants/postConstans'
+
 
 const CreatePost = () => {
     const dispatch = useDispatch();
-    const userData = useSelector(state => state.authReducers.authData)
-    const { loading } = useSelector(state => state.postReducer)
-    const descRef = useRef();
-    const [image, setImage] = useState(null);
+    const { user } = useSelector(state => state.authReducers)
+    const { createLoading, error, isCreated } = useSelector(state => state.postReducer)
+    const [description, setDescription] = useState("")
+    const [postImage, setPostImage] = useState(null);
+    const [postImagePreview, setPostImagePreview] = useState(null);
 
     const imageRef = useRef();
-    const clearForm = () => {
-        if (descRef.current) {
-            descRef.current.value = "";
-        }
-        setImage(null);
-    }
-    const onImgChange = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            let image = e.target.files[0];
-            setImage(image)
-        }
-    }
-    const handleShare = async () => {
-        dispatch({ type: 'UPLOAD_START' })
-        const id = userData.user._id;
-        const userName = userData.user?.username;
-        const desc = descRef.current?.value;
-        let imageUrl = null;
-        let hasImage = false;
 
-        if (image) {
-            const Imgdata = new FormData();
-            const filename = Date.now() + image.name;
-            Imgdata.append("name", filename);
-            Imgdata.append("file", image);
-            Imgdata.append("upload_preset", "mq38lllh");
-            imageUrl = await axios.post("https://api.cloudinary.com/v1_1/dbhf7xh4q/upload", Imgdata).then(res => {
-                console.log(res.data);; res = res.data.url;
-            });
-            hasImage = true;
-
+    const createPostSubmitHandler = (e) => {
+        e.preventDefault();
+        const myForm =
+        {
+            "description": description,
+            "postImage": postImage
         }
 
-        const url = imageUrl;
-        if (hasImage) {
-            const newPost = {
-                userId: id,
-                userName: userName,
-                desc: desc,
-                image: imageUrl
-            };
-            console.log(newPost);
-            dispatch(SharePost({ newPost, clearForm }));
-        }
-        else {
-            const newPost = {
-                userId: id,
-                userName: userName,
-                desc: desc
-            };
-            console.log(newPost);
-            dispatch(SharePost({ newPost, clearForm }));
-        }
+        dispatch(createPost(myForm))
     }
+
+    const canclePreview = () => {
+        setPostImagePreview(null);
+        setPostImage(null);
+        imageRef.current.value = null
+    }
+
+    const HandleShareDataChange = (e) => {
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setPostImagePreview(reader.result);
+                setPostImage(reader.result);
+            }
+        }
+        reader.readAsDataURL(e.target.files[0])
+    }
+
+    useEffect(() => {
+        if (error) {
+            toast(error, { type: 'error' });
+        }
+        if (isCreated) {
+            setPostImage(null)
+            setPostImagePreview(null)
+            setDescription('')
+        }
+
+
+    }, [dispatch, postImagePreview, error, postImage, isCreated])
+
     return (
         <div className="container">
             <div className="upperDiv">
                 <div className="userPhoto">
-                    <Link to='/profile/johndoe'>
-                        <img src={userData.user?.profilePicture} alt="" />
+                    <Link to={`/profile/${user._id}`}>
+                        <img src={user?.profilePicture} alt="" />
                     </Link>
                 </div>
                 <div className="input"  >
-                    <input type="text" name="" id="" placeholder="What' s Happening" required ref={descRef} />
+                    <textarea type="text" name="description" value={description} placeholder="What's In You Mind..." required onChange={e => setDescription(e.target.value)} />
+
+                    {
+                        postImagePreview &&
+                        <div className="preview">
+                            <span className='cancle'><FaTimes onClick={canclePreview} /></span>
+                            <img src={postImagePreview} alt="" />
+                        </div>
+                    }
+
                 </div>
 
             </div>
@@ -105,20 +106,15 @@ const CreatePost = () => {
                         <span><BsCalendarPlus /></span>
                         <span>Shceduled</span>
                     </div>
-                    <button className="option share-btn" onClick={handleShare} disabled={loading} >
-                        {loading ? "Please Wait..." : "Share"}
+                    <button className="option share-btn" onClick={createPostSubmitHandler} disabled={(description.length === 0 && !createLoading) ? true : false} >
+                        {createLoading ? "Publishing..." : "Publish a Post"}
                     </button>
                 </div>
                 <div>
-                    <input type="file" hidden ref={imageRef} onChange={onImgChange} />
+                    <input type="file" hidden ref={imageRef} onChange={HandleShareDataChange} />
                 </div>
             </div>
-            {image && <div className="preview">
-                <span className='cancle'><FaTimes onClick={() => setImage(null)} /></span>
 
-                <img src={URL.createObjectURL(image)} alt="" />
-            </div>
-            }
         </div>
     )
 }

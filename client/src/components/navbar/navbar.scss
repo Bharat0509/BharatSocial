@@ -1,124 +1,124 @@
 .navbar {
-  width: 100vw;
-  padding: 0.625rem 3.125rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  border-bottom: 1px solid rgb(218, 209, 209);
-  height: calc(50 / 16);
-
-  background-color: white;
-
-  .left {
+    width: 100vw;
+    padding: 0.625rem 3.125rem;
     display: flex;
-    gap: 1.25rem;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(218, 209, 209);
+    height: calc(50 / 16);
 
-    .navIcons {
-      display: flex;
-      gap: 10px;
-      font-size: 1.25rem;
-    }
-    h1 {
-      font-size: 24px;
-      color: rgba(94, 22, 239, 0.948);
-    }
-    .search {
-      display: flex;
-      align-items: center;
+    background-color: white;
 
-      border: 1px solid rgba(213, 203, 203, 0.678);
-      border-radius: 5px;
-      padding: 7px;
-      gap: 5px;
-      input {
-        border: none;
-        outline: none;
-        width: 20vw;
-      }
-    }
-  }
-  .right {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    .navIcons {
-      display: flex;
-      gap: 10px;
-      font-size: 20px;
-    }
-    .user {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
+    .left {
+        display: flex;
+        gap: 1.25rem;
+        align-items: center;
+        justify-content: center;
 
-      img {
-        height: 40px;
-        aspect-ratio: 1/1;
-        border-radius: 50%;
-        object-fit: cover;
-        cursor: pointer;
-      }
-      span {
-        cursor: pointer;
-      }
-      .logout{
-        padding: .25vw .75vw;
-        border-radius: .2rem;
-        color: rgb(255, 255, 255);
-        font-size: .75rem;
-        font-weight: 500;
-        border: 1px solid red;
-        background-color: red;
-        cursor: pointer;
-        &:hover{
-          background-color: transparent;
-          border: 1px solid red;
-          color: red;
+        .navIcons {
+            display: flex;
+            gap: 10px;
+            font-size: 1.25rem;
         }
-      }
+        h1 {
+            font-size: 24px;
+            color: rgba(94, 22, 239, 0.948);
+        }
+        .search {
+            display: flex;
+            align-items: center;
+
+            border: 1px solid rgba(213, 203, 203, 0.678);
+            border-radius: 5px;
+            padding: 7px;
+            gap: 5px;
+            input {
+                border: none;
+                outline: none;
+                width: 20vw;
+            }
+        }
     }
-  }
+    .right {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        .navIcons {
+            display: flex;
+            gap: 10px;
+            font-size: 20px;
+        }
+        .user {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            img {
+                height: 40px;
+                aspect-ratio: 1/1;
+                border-radius: 50%;
+                object-fit: cover;
+                cursor: pointer;
+            }
+            span {
+                cursor: pointer;
+            }
+            .logout {
+                padding: 0.25vw 0.75vw;
+                border-radius: 0.2rem;
+                color: rgb(255, 255, 255);
+                font-size: 0.75rem;
+                font-weight: 500;
+                border: 1px solid red;
+                background-color: red;
+                cursor: pointer;
+                &:hover {
+                    background-color: transparent;
+                    border: 1px solid red;
+                    color: red;
+                }
+            }
+        }
+    }
 }
 
 // --------------------Media-Query------------------------
 $breakpoint-tablet: 768px;
 @media (max-width: $breakpoint-tablet) {
-  .navbar {
-    width: 100%;
-    font-size: 0.75rem;
-    gap: 6.5rem;
-    .left {
-      h1 {
-        font-size: 0.9rem;
-      }
+    .navbar {
+        width: 100%;
+        font-size: 0.75rem;
+        padding: 1.5vmax;
+        gap: 6.5rem;
+        .left {
+            h1 {
+                font-size: 0.9rem;
+            }
 
-      .navIcons {
-        display: none;
-      }
-      .search {
-        display: none;
-      }
-    }
-    .right {
-      .navIcons {
-        font-size: 0.8rem;
-      }
-      .user {
-        img {
-          border: 1px solid rgb(214, 200, 200);
-          height: 1.6rem;
+            .navIcons {
+                display: none;
+            }
+            .search {
+                display: none;
+            }
         }
-        span {
-          display: none;
+        .right {
+            .navIcons {
+                font-size: 0.8rem;
+            }
+            .user {
+                img {
+                    border: 1px solid rgb(214, 200, 200);
+                    height: 1.6rem;
+                }
+                span {
+                    display: none;
+                }
+            }
+            .logout {
+                display: none;
+            }
         }
-      }
-      .logout{
-        display: none;
-      }
     }
-  }
 }

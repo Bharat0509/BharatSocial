@@ -7,59 +7,73 @@
     font-family: 'Montserrat', sans-serif;
 
 }
-button{
+
+button {
     border: none;
     outline: none;
 }
+
 ::-webkit-scrollbar {
     display: none;
 }
 
 body {
+
     background-color: rgb(228, 230, 246);
     font-size: 1vw;
+}
+
+.css-16cqd0p-MuiPaper-root-MuiCard-root {
+    margin: 10px;
 }
 
 /* ......................................................................................................... */
 .main {
     display: flex;
     flex-direction: column;
-   
+
 }
 
 .nav {
     width: 100vw;
+    position: sticky;
+    left: 0;
+    top: 0;
+
+    z-index: 99;
 }
 
 .sub-main {
     display: flex;
-    margin-top: 1vh;
-    /* margin: .625rem 1.625rem; */
-    align-items: center;
-    justify-content: center;
-    gap: 1vw;
-    padding: .75vw;
-}
-.middle{
-   width:53vw;
-   
-}
- @media screen and (max-width:1200px) {
-    body {
-        font-size: .8rem;
+    gap: 1vmax;
+    margin: auto;
 
-    }
+}
+
+.middle {
+    width: 54vw;
+
+}
+
+@media screen and (max-width:1200px) {
+
 
     .right {
         display: none;
     }
-    .middle{
+
+    .middle {
         width: 80vw;
     }
 
 }
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:1024px) {
+    .middle {
+        width: 100vw;
+        margin: auto;
+    }
+
     .option span {
         font-size: .75rem;
     }
@@ -68,12 +82,16 @@ body {
         background-color: red;
     }
 
-    .sub-main {
-        margin: .625rem;
-    }
-
     .left {
         display: none;
+    }
+
+    body {
+        font-size: .6rem;
+    }
+
+    .sub-main {
+        width: 100vw;
     }
 }
 
@@ -81,7 +99,8 @@ body {
     body {
         font-size: .6rem;
     }
-    .sub-main{
-        width: 87vw;
+
+    .sub-main {
+        width: 100vw;
     }
-} 
+}

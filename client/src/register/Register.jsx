@@ -1,11 +1,15 @@
 import './register.scss'
-import { Link, Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { signUp } from '../Actions/AuthAction.js'
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { loading, error, user } = useSelector((state) => state.authReducers)
   const [formData, setFormData] = useState({
     username: "",
     name: "",
@@ -19,21 +23,27 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("hello ");
     dispatch(signUp(formData))
-
-
   }
-  const{ loading, error }= useSelector((state) => state.authReducers)
-  const user = useSelector((state) => state.authReducers.authData);
 
+  useEffect(() => {
+    if (error) {
+      toast(error.message);
+    }
+    if (user) {
+      navigate('/');
+    }
+
+
+
+  }, [])
   return (
     <>
-      {
+      {/* {
         user?.user &&
         <Navigate to={'../login'} />
       }
-     
+      */}
 
       <div className="register">
         <div className="card">

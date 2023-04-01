@@ -1,22 +1,29 @@
 import UserModel from "../Models/userModels.js";
 import bcrypt from 'bcrypt'
+import ErrorHandler from "../utils/ErrorHandler.js";
+import sendToken from "../utils/jwtToken.js";
 
-export const getUser=async (req,res)=>{
+
+
+export const getUser=async (req,res,next)=>{
     const id=req.params.id;
     try {
         const user=await UserModel.findById(id);
         if(!user) res.status(404).json("User Not Found !!");
         else{
         const {password,...otherDetails}=user._doc;
-        res.status(200).json(otherDetails)}
+        res.status(200).json(
+            {   success:true,
+                user:otherDetails
+            })}
     } catch (error) {
-        res.status(500).json("Internal server error!!")
+        return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
+   
     }   
 }
 
 //get Users
-
-export const getUsers=async (req,res)=>{
+export const getUsers=async (req,res,next)=>{
 
     try {
         const users=await UserModel.find();
@@ -26,15 +33,34 @@ export const getUsers=async (req,res)=>{
         })
         res.status(200).json(users);
     } catch (error) {
-        res.status(500).json(error)
+        return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
         
     }
     
     
 }
 
+
+export const loadUser=async ()=>{
+    const userId=req.user._id;
+
+     try {
+        const user=await UserModel.findById(id);
+        if(!user) return next(new ErrorHandler(`User Not Found  `,404))
+        
+        const {password,...otherDetails}=user._doc;
+        sendToken(otherDetails,200,res)
+
+    } catch (error) {
+        return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
+   
+    } 
+
+    
+}
+
 //Update user
-export const updateUser=async (req,res)=>{
+export const updateUser=async (req,res,next)=>{
     const id=req.params.id;
     const {currentUserId,currentUserAdminStatus,password}=req.body;
 
@@ -47,10 +73,10 @@ export const updateUser=async (req,res)=>{
 
             const user=await UserModel.findByIdAndUpdate(id,req.body,{new:true});
 
-            res.status(200).json(user);
+            sendToken(user,200,res);
             
         } catch (error) {
-            res.status(500).json("Something Went Wrong !!")
+           return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
         }
     }
 
@@ -59,7 +85,7 @@ export const updateUser=async (req,res)=>{
 
 
 //Delete user
-export const deleteUser=async (req,res)=>{
+export const deleteUser=async (req,res,next)=>{
     const id=req.params.id;
     const {currentUserId,currentUserAdminStatus}=req.body;
 
@@ -69,7 +95,7 @@ export const deleteUser=async (req,res)=>{
             res.status(200).json("User Deleted Successfully !!");
              
         } catch (error) {
-            res.status(500).json("Something Went Wrong !!")
+            return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
         }
     }
 }
@@ -77,7 +103,7 @@ export const deleteUser=async (req,res)=>{
 
 
 //Follow a User
-export const followUser=async (req,res)=>{
+export const followUser=async (req,res,next)=>{
     const id=req.params.id;
 
     const {currentUserId}=req.body;
@@ -105,9 +131,7 @@ export const followUser=async (req,res)=>{
             }
             
         } catch (error) {
-            res.status(500).json({
-                message:error.message
-            })
+           return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
         }
     }
 
@@ -118,7 +142,7 @@ export const followUser=async (req,res)=>{
 
 //Unfollow User
 
-export const unFollowUser=async (req,res)=>{
+export const unFollowUser=async (req,res,next)=>{
     const id=req.params.id;
 
     const {currentUserId}=req.body;
@@ -146,9 +170,7 @@ export const unFollowUser=async (req,res)=>{
             }
             
         } catch (error) {
-            res.status(500).json({
-                message:error.message
-            })
+            return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
         }
     }
 

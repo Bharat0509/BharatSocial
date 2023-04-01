@@ -1,16 +1,20 @@
 import { useSelector } from 'react-redux'
 import './leftbat.scss'
+import { Link } from 'react-router-dom'
 
 const Leftbar = () => {
-  const userData = useSelector(state => state.authReducers.authData)
+  const { user } = useSelector(state => state.authReducers)
   return (
     <div className="leftbar">
       <div className="container">
         <div className="menu">
-          <div className="user">
-            <img src={userData.user?.profilePicture || ''} alt="" />
-            <span>{userData.user?.username || ''}</span>
-          </div>
+          <Link to={`/profile/${user._id}`}>
+            <div className="user">
+              <img src={user?.profilePicture || ''} alt="" />
+              {/* <span>{user?.username || ''}</span> */}
+              <span>My Account</span>
+            </div>
+          </Link>
           <div className="items">
             <img src="2.png" alt="" />
             <span>Friends</span>

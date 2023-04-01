@@ -2,18 +2,25 @@ import './navbar.scss'
 import { TiHomeOutline } from 'react-icons/ti'
 import { HiOutlineMoon } from 'react-icons/hi'
 import { MdGridView, MdOutlineSearch, MdPersonOutline, MdOutlineEmail, MdNotificationsNone } from 'react-icons/md'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+import { clearErrors } from '../../Actions/AuthAction'
 const Navbar = () => {
-  
-  const dispatch=useDispatch();
-  const userData = useSelector(state => state.authReducers.authData)
+
+  const dispatch = useDispatch();
+  const { user, loading, error, message } = useSelector(state => state.authReducers)
   const [showMore, setShowMore] = useState(false);
   const logout = () => {
-    dispatch({type:'LOGOUT'})
-    localStorage.clear(); 
+    dispatch({ type: 'LOGOUT' })
   }
+  useEffect(() => {
+    if (error) {
+      toast(message);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, loading, error, message])
   return (
     <div className="navbar">
       <div className="left">
@@ -39,9 +46,15 @@ const Navbar = () => {
           <MdOutlineEmail />
           <MdNotificationsNone /></div>
         <div className="user">
-          <img src={userData.user?.profilePicture} alt="img" onClick={() => setShowMore(prev => !prev)} />
-          <span>{userData.user?.username}</span>
-          <div className='logout' onClick={()=>logout()}>Logout</div>
+          <Link to={`profile/${user._id}`}>
+            <img src={user?.profilePicture} alt="img" onClick={() => setShowMore(prev => !prev)} />
+          </Link>
+          {/* <span>{user?.username}</span> */}
+          {showMore &&
+            <>
+              <div className='logout' onClick={() => logout()}>Logout</div>
+            </>
+          }
         </div>
       </div>
     </div>

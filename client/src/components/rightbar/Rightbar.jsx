@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 const Rightbar = () => {
-  const currentUser = useSelector(state => state.authReducers.authData.user);
+  const { user: currentUser } = useSelector(state => state.authReducers);
   const currentUserId = currentUser?._id;
   const { loading } = useSelector(state => state.postReducer);
   const [users, setUsers] = useState();
@@ -39,7 +39,7 @@ const Rightbar = () => {
     getUsers();
 
 
-  }, [loading, currentUser,currentUserId])
+  }, [loading, currentUser, currentUserId])
   return (
     <div className="rightbar">
       <div className="suggestion">

@@ -2,24 +2,33 @@ import './App.css'
 import Login from './login/Login'
 import Register from './register/Register'
 import Home from './home/Home'
-import { createBrowserRouter, RouterProvider, Route, Outlet, Navigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Route, Outlet, Navigate, useNavigate } from 'react-router-dom'
 import Profile from './profile/Profile'
 import Navbar from './components/navbar/Navbar'
 import Leftbar from './components/leftbar/Leftbar'
 import Rightbar from './components/rightbar/Rightbar'
 import Post from './components/chats/Post'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { loadUser } from './Actions/UserAction'
 
 function App() {
+  const dispatch=useDispatch();
+  const {user,isAuthenticated }= useSelector(state => state.authReducers);
+  
 
-  const user = useSelector(state => state.authReducers.authData);
+  useEffect(()=>{
+    // if(isAuthenticated){
+    //   dispatch(loadUser())
+    // }
+  },[])
   const Layout = () => {
+
+    
     return (
       <>
-        {
-          !user?.user && <Navigate to={"login"}/>
-        }
-        {user?.user &&
+        
+        {!isAuthenticated ? <Navigate to={'/login'}/>:
           <div className='main'>
             <div className='nav'>
               <Navbar />

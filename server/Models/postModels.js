@@ -1,19 +1,28 @@
 import mongoose from 'mongoose'
 
-const postSchema = mongoose.Schema({
-  userId: {
-    type: String,
-    required: true
+const postSchema = mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Users',
+      required: true
+    },
+    description: String,
+    likes: [],
+    postImage: {
+      public_id: {
+        type: String
+
+      },
+      url: {
+        type: String
+      }
+
+    }
   },
-  userName: {
-    type: String
-  },
-  desc: String,
-  likes: [],
-  image: String
-}, {
-  timestamps: true
-})
+  {
+    timestamps: true
+  })
 
 const PostModel = mongoose.model('Posts', postSchema)
 export default PostModel

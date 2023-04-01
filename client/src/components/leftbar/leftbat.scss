@@ -1,45 +1,45 @@
 .leftbar {
-  height: 100vh;
-  background-color: white;
-  overflow: scroll;
-  width: 15vw;
-  border-radius: 0.25rem;
-  .container {
-    color: rgb(85, 93, 100);
-    padding: 0 0.625rem;
-    .menu {
-      margin: 0.625rem;
-      .user {
-        display: flex;
-        align-items: center;
-        gap: 0.625rem;
-        cursor: pointer;
-        img {
-          width: 1.8rem;
-          aspect-ratio: 1/1;
-          border: 1px solid gray;
-          border-radius: 50%;
-          object-fit: cover;
+    height: 100%;
+    background-color: white;
+    overflow: scroll;
+    width: 15vw;
+    border-radius: 0.25rem;
+    .container {
+        color: rgb(85, 93, 100);
+        padding: 0 0.625rem;
+        .menu {
+            margin: 0.625rem;
+            .user {
+                display: flex;
+                align-items: center;
+                gap: 0.625rem;
+                cursor: pointer;
+                img {
+                    width: 1.8rem;
+                    aspect-ratio: 1/1;
+                    border: 1px solid gray;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+            .items {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                margin: 0.5rem 0;
+                gap: 0.625rem;
+                img {
+                    width: 1.8rem;
+                    aspect-ratio: 1/1;
+                    border: 1px solid gray;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
         }
-      }
-      .items {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        margin: 0.5rem 0;
-        gap: 0.625rem;
-        img {
-          width: 1.8rem;
-          aspect-ratio: 1/1;
-          border: 1px solid gray;
-          border-radius: 50%;
-          object-fit: cover;
+        hr {
+            border: 0.2px solid rgba(128, 128, 128, 0.27);
+            outline: none;
         }
-      }
     }
-    hr {
-      border: 0.2px solid rgba(128, 128, 128, 0.27);
-      outline: none;
-    }
-  }
 }
