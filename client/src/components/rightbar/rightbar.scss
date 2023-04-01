@@ -1,141 +1,117 @@
 .rightbar {
-  // margin-left: 0.75vw;
-  background-color: white;
-  border-radius: .25rem;
-  height: 100vh;
-  width: 25vw;
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem;
-  overflow: scroll;
-  .user {
-    display: flex;
-    gap: 0.625rem;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1.25rem;
-    .detail {
-      display: flex;
-      gap: 0.625rem;
-      align-items: center;
-      img {
-        height: 1.8rem;
-        aspect-ratio: 1/1;
-        border-radius: 50%;
-      }
-    }
-    .action {
-      display: flex;
-      gap: 0.625rem;
-      button {
-        padding: 0.2rem 0.6rem;
-        border-radius: 0.2rem;
-        border: none;
-        outline: none;
-        font-weight: 500;
-        cursor: pointer;
-        &:first-child {
-          background-color: rgb(57, 57, 248);
-          color: white;
-        }
-        &:last-child {
-          background-color: red;
-          color: white;
-        }
-      }
-    }
-  }
-
-  .suggestion {
+    // margin-left: 0.75vw;
     background-color: white;
-    padding: 1.2rem;
-    border-radius: 0.6rem;
-    span {
-      color: rgb(72, 68, 68);
-    }
+    border-radius: 0.25rem;
+    height: 100vh;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    overflow: scroll;
     .user {
-      display: flex;
-      gap: 0.625rem;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 1.25rem;
-      .detail {
         display: flex;
         gap: 0.625rem;
         align-items: center;
-        img {
-          height: 1.8rem;
-          aspect-ratio: 1/1;
-          border-radius: 50%;
+        justify-content: space-between;
+        margin-top: 1.25rem;
+        .detail {
+            display: flex;
+            gap: 0.625rem;
+            align-items: center;
+            img {
+                height: 1.8rem;
+                aspect-ratio: 1/1;
+                border-radius: 50%;
+            }
         }
-      }
-      .action {
+        .action {
+            display: flex;
+            gap: 0.625rem;
+            button {
+                padding: 0.2rem 0.6rem;
+                border-radius: 0.2rem;
+                border: none;
+                outline: none;
+                font-weight: 500;
+                cursor: pointer;
+                &:first-child {
+                    background-color: rgb(57, 57, 248);
+                    color: white;
+                }
+                &:last-child {
+                    background-color: red;
+                    color: white;
+                }
+            }
+        }
+    }
+
+    .suggestion {
+        background-color: white;
+        padding: 1.2rem;
         display: flex;
-        gap: 0.625rem;
-        button {
-          padding: 0.2rem 0.6rem;
-          border-radius: 0.2rem;
-          border: none;
-          outline: none;
-          font-weight: 500;
-          cursor: pointer;
-          &:first-child {
-            background-color: rgb(57, 57, 248);
-            color: white;
-          }
-          &:last-child {
-            background-color: red;
-            color: white;
-          }
-        }
-      }
-    }
-  }
-
-  .activity {
-    background-color: white;
-    padding: 1.2rem;
-    border-radius: 0.6rem;
-    span {
-      color: rgb(34, 32, 32);
-    }
-    .user {
-      .detail {
+        flex-direction: column;
+        gap: 1vmax;
+        border-radius: 0.6rem;
         span {
-          font-size: 0.75rem;
+            font-weight: 500;
+            color: rgb(77, 71, 71);
         }
-      }
-      .action {
-        p {
-          font-size: 1rem;
+        .sponsoredContainer {
+            border-radius: 0.25rem;
+            background-color: rgb(240, 240, 240);
+            img {
+                border-radius: 5px;
+                width: 100%;
+            }
+            p {
+                padding: 1vmax;
+            }
         }
-        span {
-          font-size: 0.8rem;
-        }
-      }
     }
-  }
 
-  .online {
-    background-color: white;
-    padding: 1.2rem;
-    border-radius: 0.625rem;
+    .online {
+        background-color: white;
+        padding: 1.2rem;
+        border-radius: 0.625rem;
 
-    .user {
-      display: flex;
-      position: relative;
-      gap: 0.625rem;
-      .detail {
-        .status {
-          height: 0.8rem;
-          aspect-ratio: 1/1;
-          border-radius: 50%;
-          background-color: green;
-          position: absolute;
-          top: 0rem;
-          left: 1.2rem;
+        .user {
+            display: flex;
+            position: relative;
+            width: 100%;
+            gap: 1rem;
+            .detail {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+                .status {
+                    display: flex;
+                    gap: 1vmax;
+                    align-items: center;
+                    justify-content: space-between;
+                    .accept {
+                        background-color: rgb(240, 240, 240);
+                        border-radius: 0.25rem;
+                        padding: 0.5vmax;
+                        color: rgb(13, 180, 13);
+                        cursor: pointer;
+                        &:hover {
+                            background-color: rgb(228, 227, 227);
+                        }
+                    }
+
+                    .reject {
+                        background-color: rgb(240, 240, 240);
+                        border-radius: 0.25rem;
+                        padding: 0.5vmax;
+                        color: rgb(236, 8, 8);
+                        &:hover {
+                            background-color: rgb(228, 227, 227);
+                        }
+                        cursor: pointer;
+                    }
+                }
+            }
         }
-      }
     }
-  }
 }

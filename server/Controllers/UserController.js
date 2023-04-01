@@ -45,14 +45,14 @@ export const loadUser=async ()=>{
     const userId=req.user._id;
 
      try {
-        const user=await UserModel.findById(id);
+        const user=await UserModel.findById(userId);
         if(!user) return next(new ErrorHandler(`User Not Found  `,404))
         
         const {password,...otherDetails}=user._doc;
         sendToken(otherDetails,200,res)
 
     } catch (error) {
-        return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
+        return next(new ErrorHandler(`Unexptected Error Occured : ${error.reponse.data.message} `,500))
    
     } 
 

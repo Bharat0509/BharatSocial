@@ -20,8 +20,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs'
-import { useDispatch } from 'react-redux';
-import { deletePost } from '../../Actions/PostAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePost, dislikePost, likePost } from '../../Actions/PostAction';
+import { red } from '@mui/material/colors';
 
 
 
@@ -33,7 +34,7 @@ const ITEM_HEIGHT = 48;
 const options = [
     "Edit Post",
     "Delete Post",
-    "Who Viewed"
+    "More"
 ];
 
 
@@ -50,6 +51,8 @@ const ExpandMore = styled((props) => {
 
 function Media({ loading, data }) {
     const dispatch = useDispatch();
+
+    const { user } = useSelector(state => state.authReducers)
     const [expanded, setExpanded] = React.useState(false);
 
     const handleExpandClick = () => {
@@ -58,6 +61,18 @@ function Media({ loading, data }) {
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [isLiked, setIsLiked] = React.useState('')
+    const handleLike = (e) => {
+
+        { isLiked === "red" ? setIsLiked("") : setIsLiked("red") }
+        if (isLiked === "red") {
+            dispatch(likePost(data._id, user._id));
+        }
+        else {
+            dispatch(dislikePost(data._id, user._id))
+        }
+
+    }
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -71,13 +86,13 @@ function Media({ loading, data }) {
 
 
     return (
-        <Card sx={{ m: 2 }}>
+        <Card sx={{ m: 1 }}>
             <CardHeader
                 avatar={
                     loading ? (
                         <Skeleton animation="wave" variant="circular" width={40} height={40} />
                     ) : (
-                        <Link to={`/profile/${data.userId}`}>
+                        <Link to={`/profile/${data.user._id}`}>
                             <Avatar
                                 alt="Ted talk"
                                 src={`${data && data.user && data.user.profilePicture}`}
@@ -171,7 +186,7 @@ function Media({ loading, data }) {
                 !loading &&
                 <>
                     <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
+                        <IconButton aria-label="Like" onClick={handleLike} style={{ color: isLiked }}>
                             <FavoriteIcon />
                         </IconButton>
                         <IconButton aria-label="share">

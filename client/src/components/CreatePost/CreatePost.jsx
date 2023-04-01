@@ -102,10 +102,10 @@ const CreatePost = () => {
                         <span><BiLocationPlus /></span>
                         <span>Location</span>
                     </div>
-                    <div className="option">
+                    {/* <div className="option">
                         <span><BsCalendarPlus /></span>
                         <span>Shceduled</span>
-                    </div>
+                    </div> */}
                     <button className="option share-btn" onClick={createPostSubmitHandler} disabled={(description.length === 0 && !createLoading) ? true : false} >
                         {createLoading ? "Publishing..." : "Publish a Post"}
                     </button>

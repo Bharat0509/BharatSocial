@@ -5,7 +5,6 @@ import { isAuthenticatedUser } from '../middlewares/auth.js'
 
 const router = express.Router()
 router.get('/:id', getUser)
-router.get('/me', isAuthenticatedUser, loadUser)
 router.get('/:id/users', getUsers)
 router.get('/:id/posts', getPosts)
 router.put('/:id', updateUser)

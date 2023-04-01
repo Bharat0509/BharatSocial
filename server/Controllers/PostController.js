@@ -102,15 +102,19 @@ export const deletePost=catchAsyncError(async (req,res,next)=>{
 
 //Like a post
 export const likePost=async (req,res)=>{
+    
     const postId=req.params.id;
     const {userId}=req.body;
-    console.log(postId,userId);
+
     if(!userId) res.status(500).json("Something Went Wrong !")
     try {
         const post=await PostModel.findById(postId);
         if(!post.likes.includes(userId)){
             await post.updateOne({$push:{likes:userId}});
-            res.status(200).json("Post Liked !!"); 
+            res.status(200).json({
+                success:true,
+                post:"Post Liked "
+            }); 
         } else{
             res.status(403).json("Action Forbidden !!")
         }

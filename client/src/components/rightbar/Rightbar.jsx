@@ -43,92 +43,55 @@ const Rightbar = () => {
   return (
     <div className="rightbar">
       <div className="suggestion">
-        <span>Suggestion For You</span>
-        {
-
-          users?.map((user) => {
-            return ((user._id != currentUserId) && !user.followers.includes(currentUserId) &&
-              <div className="user" key={user._id}>
-                <div className="detail">
-                  <img src={user.profilePicture} alt={user.username} />
-                  <Link to={`/profile/${user._id}`}><span className="name">{user.username}</span></Link>
-                </div>
-                <div className="action">
-                  {console.log(user._id, currentUserId)}
-                  <button onClick={() => userFollow(user._id, currentUserId)}>Follow</button>
-                  <button>Dismiss</button>
-                </div>
-
-              </div>
-            )
-          })
-        }
-      </div>
-      <div className="activity">
-        <span>Latest Activities</span>
-
-        <div className="user">
-          <div className="detail">
-            <img src="https://images.pexels.com/photos/534229/pexels-photo-534229.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
-            <span className="name">John Doe</span>
-          </div>
-          <div className="action">
-            <p>changed post details</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-
-        <div className="user">
-          <div className="detail">
-            <img src="https://images.pexels.com/photos/534229/pexels-photo-534229.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
-            <span className="name">John Doe</span>
-          </div>
-          <div className="action">
-            <p>changed post details</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-
-
-        <div className="user">
-          <div className="detail">
-            <img src="https://images.pexels.com/photos/534229/pexels-photo-534229.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
-            <span className="name">John Doe</span>
-          </div>
-          <div className="action">
-            <p>changed post details</p>
-            <span>1 min ago</span>
-          </div>
-        </div>
-
-        <div className="user">
-          <div className="detail">
-            <img src="https://images.pexels.com/photos/534229/pexels-photo-534229.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
-            <span className="name">John Doe</span>
-          </div>
-          <div className="action">
-            <p>changed post details</p>
-            <span>1 min ago</span>
-          </div>
+        <span>Sponsered By</span>
+        <div className="sponsoredContainer">
+          <img src="https://imgs.search.brave.com/GotiXqw39wNWCs70kOkS_oLVHNAIRcy1SBtesahNvds/rs:fit:1200:891:1/g:ce/aHR0cHM6Ly9hbm90/aGVyY2hpbGRmb3Vu/ZGF0aW9uLm9yZy93/cC1jb250ZW50L3Vw/bG9hZHMvMjAxOC8x/MS9iZWNvbWVhc3Bv/bnNvci0wOC5wbmc" alt="" />
+          <p>
+            <Link>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos, beatae?
+              More...</Link>
+          </p>
         </div>
       </div>
+
+
+
       <div className="online">
-        <span>Online Now</span>
+        <span> Friend Requests </span>
 
         <div className="user">
           <div className="detail">
             <img src="https://images.pexels.com/photos/534229/pexels-photo-534229.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
             <span className="name">John Doe</span>
-            <span className='status'></span>
+            <span className='status'>
+              <div className='accept'>ACCEPT</div>
+              <div className='reject'>REJECT</div>
+            </span>
           </div>
         </div>
+
         <div className="user">
           <div className="detail">
             <img src="https://images.pexels.com/photos/534229/pexels-photo-534229.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
             <span className="name">John Doe</span>
-            <span className='status'></span>
+            <span className='status'>
+              <div className='accept'>ACCEPT</div>
+              <div className='reject'>REJECT</div>
+            </span>
           </div>
         </div>
+
+        <div className="user">
+          <div className="detail">
+            <img src="https://images.pexels.com/photos/534229/pexels-photo-534229.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
+            <span className="name">John Doe</span>
+            <span className='status'>
+              <div className='accept'>ACCEPT</div>
+              <div className='reject'>REJECT</div>
+            </span>
+          </div>
+        </div>
+
 
 
 

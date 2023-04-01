@@ -1,7 +1,7 @@
 import Axios from "../Axios";
 
 
-import { ALL_POSTS_FAIL, ALL_POSTS_REQUEST, ALL_POSTS_SUCCESS, CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, DELETE_POST_FAIL, DELETE_POST_REQUEST, DELETE_POST_SUCCESS } from "../Constants/postConstans";
+import { ALL_POSTS_FAIL, ALL_POSTS_REQUEST, ALL_POSTS_SUCCESS, CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, DELETE_POST_FAIL, DELETE_POST_REQUEST, DELETE_POST_SUCCESS, DISLIKE_POST_FAIL, DISLIKE_POST_REQUEST, DISLIKE_POST_SUCCESS, LIKE_POST_FAIL, LIKE_POST_REQUEST, LIKE_POST_SUCCESS } from "../Constants/postConstans";
 
 export const createPost=(formData)=>async(dispatch)=>{
     dispatch({type:CREATE_POST_REQUEST});
@@ -63,25 +63,30 @@ export const deletePost=(postId)=>async(dispatch)=>{
 }
 
 
-//  export const likePost = async () => {
-//     try {
-//       const res = await axios.put(`https://bharatsocial-infc.onrender.com/post/${data._id}/like`, { userId: user._id });
-//       setLikes(prev => prev + 1);
-//       setLiked(true);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
+ export const likePost =  (postId,userId) =>async (dispatch)=> {
+dispatch({type: LIKE_POST_REQUEST})
+
+    try {
+        
+      const {data} = await Axios.put(`/posts/${postId}/like`, { user: userId });
+      dispatch({type:LIKE_POST_SUCCESS,data:data.success})
+    } catch (error) {
+        dispatch({type:LIKE_POST_FAIL,data:error.reponse.message})
+      
+    }
+  }
 
 
-//   export const dislikePost = async () => {
-//     try {
-//       const res = await axios.put(`https://bharatsocial-infc.onrender.com/post/${data._id}/dislike`, { userId: userData.user._id });
-//       setLikes(prev => prev - 1);
-//       setLiked(false);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
+  export const dislikePost =  (postId,userId) =>async (dispatch)=>{
+    dispatch({type: DISLIKE_POST_REQUEST})
+
+    try {
+      const {data} = await Axios.put(`/posts/${postId}/dislike`, { user:userId });
+       dispatch({type:DISLIKE_POST_SUCCESS,data:data.success})
+
+    } catch (error) {
+      dispatch({type:DISLIKE_POST_FAIL,data:error.reponse.message})
+    }
+  }
 
 

@@ -53,7 +53,7 @@
         background-color: white;
         border-radius: 0.25rem;
         margin: 0.75rem 2.5rem;
-        height: 20rem;
+        height: 25rem;
         padding-top: 5rem;
 
         .userName {
@@ -93,42 +93,98 @@
         }
         .uStatus {
             display: flex;
-            width: 50%;
-            margin-top: 1.2vw;
+            // width: 50%;
+            margin: 1.2vw 0;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 2vmax;
+
             .followers {
-                background-color: blue;
-                color: white;
-                border: none;
-                outline: none;
-                padding: 0.5rem;
-                border-radius: 0.25rem;
+                color: black;
+                font: 500 1.2vmax "Roboto";
+
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                text-transform: uppercase;
+                span {
+                    padding: 1vmax;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    // font-size: large;
+                    color: rgb(6, 6, 37);
+                }
+            }
+            .vertLine {
+                border-radius: 1rem;
+                background-color: rgba(33, 33, 141, 0.525);
+                height: 1.5vmax;
+                width: 0.25vmax;
             }
             .followings {
-                background-color: red;
-                color: white;
-                border: none;
-                outline: none;
-                padding: 0.5rem;
-                border-radius: 0.25rem;
+                // background-color: red;
+                text-transform: uppercase;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                color: blue;
+                font: 500 1.2vmax "Roboto";
+                span {
+                    padding: 1vmax;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    // font-size: large;
+                    color: blue;
+                }
             }
-            .button {
-                background-color: blue;
-                color: white;
-                border: none;
-                outline: none;
-                padding: 0.5rem;
-                border-radius: 0.25rem;
-                cursor: pointer;
-            }
+        }
+        .followUser {
+            background-color: blue;
+            color: white;
+            width: 70%;
+            border-radius: 0.25vmax;
+            font-size: 1.5vmax;
+            text-align: center;
+            padding: 1vmax 2vmax;
+            margin-bottom: 4vmax;
         }
     }
     .posts {
-        // width: 55vw;
         display: flex;
         flex-direction: column;
-        // gap: 0.625rem;
+
         margin: auto;
+    }
+}
+
+//Media Query
+@media screen and (max-width: 768px) {
+    .profile {
+        .userDetails {
+            height: fit-content;
+
+            .options {
+                flex-direction: column;
+                align-items: flex-start;
+                .detail {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+            }
+        }
+        .followUser {
+            background-color: blue;
+            color: white;
+            width: 90%;
+            border-radius: 0.25vmax;
+            font-size: 1.5vmax;
+            text-align: center;
+            padding: 1vmax 2vmax;
+            margin-bottom: 2vmax;
+        }
     }
 }

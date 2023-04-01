@@ -50,8 +50,17 @@ body {
 
 }
 
+.input {
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: rgb(34, 31, 31);
+}
+
 .middle {
-    width: 54vw;
+    width: 55vw;
 
 }
 

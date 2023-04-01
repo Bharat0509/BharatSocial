@@ -11,16 +11,20 @@ import Post from './components/chats/Post'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { loadUser } from './Actions/UserAction'
-
+import store from './store/ReduxStore'
 function App() {
   const dispatch=useDispatch();
   const {user,isAuthenticated }= useSelector(state => state.authReducers);
   
 
   useEffect(()=>{
-    // if(isAuthenticated){
-    //   dispatch(loadUser())
-    // }
+    if(isAuthenticated){
+      // store.dispatch(loadUser())
+    }
+    else{
+      localStorage.clear();
+    }
+    
   },[])
   const Layout = () => {
 
@@ -54,7 +58,8 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/login',
-      element: <Login />
+element: <Login />
+
     },
     {
       path: '/register',

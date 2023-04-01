@@ -15,7 +15,7 @@ import PostSkeleton from '../components/Skeltons/PostSkeleton'
 const Profile = () => {
   const params = useParams();
   const dispatch = useDispatch();
-
+  const { user } = useSelector(state => state.authReducers)
   const { profile: currentUser, loading: userLoading, error } = useSelector(state => state.profileReducer)
   const { posts, loading: postsLoading, error: postsError } = useSelector(state => state.postsReducer)
   const { isDeleted } = useSelector(state => state.postReducer)
@@ -111,10 +111,14 @@ const Profile = () => {
             </div>
           </div>
           <div className="uStatus">
-            <div className="followers"><span>Followers : </span>{currentUser?.followers?.length}</div>
-            <div className="followings"><span>Followings : </span>{currentUser?.following?.length}</div>
-            <div className="followUser button" onClick={followSubmitHandler}>Follow</div>
+            <div className="followers">Followers : <span>{currentUser?.followers?.length}</span></div>
+            <div className="vertLine"></div>
+            <div className="followings">Followings : <span>{currentUser?.followings?.length}</span></div>
+
           </div>
+          {user._id !== currentUser._id &&
+            <div className="followUser button" onClick={followSubmitHandler}>Follow</div>
+          }
 
         </div>
         <div className="posts">
