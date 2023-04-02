@@ -35,7 +35,7 @@ export const getTimeLinePosts=(id)=>async(dispatch)=>{
         dispatch({type:ALL_POSTS_SUCCESS,data:data.posts})
 
     } catch (error) {
-        dispatch({type:ALL_POSTS_FAIL,data:error?.reponse?.message})
+        dispatch({type:ALL_POSTS_FAIL,data:error?.reponse?.data?.message})
        
     }
 }
@@ -57,7 +57,7 @@ export const deletePost=(postId)=>async(dispatch)=>{
         dispatch({type:DELETE_POST_SUCCESS,data:data.success})
 
     } catch (error) {
-        dispatch({type:DELETE_POST_FAIL,data:error?.reponse?.message})
+        dispatch({type:DELETE_POST_FAIL,data:error?.reponse?.data?.message})
        
     }
 }
@@ -71,7 +71,7 @@ dispatch({type: LIKE_POST_REQUEST})
       const {data} = await Axios.put(`/posts/${postId}/like`, { user: userId });
       dispatch({type:LIKE_POST_SUCCESS,data:data.success})
     } catch (error) {
-        dispatch({type:LIKE_POST_FAIL,data:error.reponse.message})
+        dispatch({type:LIKE_POST_FAIL})
       
     }
   }
@@ -85,7 +85,8 @@ dispatch({type: LIKE_POST_REQUEST})
        dispatch({type:DISLIKE_POST_SUCCESS,data:data.success})
 
     } catch (error) {
-      dispatch({type:DISLIKE_POST_FAIL,data:error.reponse.message})
+      
+      dispatch({type:DISLIKE_POST_FAIL})
     }
   }
 

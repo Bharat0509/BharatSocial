@@ -58,10 +58,11 @@
             color: rgb(77, 71, 71);
         }
         .sponsoredContainer {
-            border-radius: 0.25rem;
+            border-radius: 0.3rem;
+            overflow: hidden;
             background-color: rgb(240, 240, 240);
             img {
-                border-radius: 5px;
+                // border-radius: 5px;
                 width: 100%;
             }
             p {

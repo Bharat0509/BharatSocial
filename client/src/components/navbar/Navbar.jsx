@@ -1,6 +1,6 @@
 import './navbar.scss'
-import { TiHomeOutline } from 'react-icons/ti'
-import { HiOutlineMoon } from 'react-icons/hi'
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { MdGridView, MdOutlineSearch, MdPersonOutline, MdOutlineEmail, MdNotificationsNone } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,12 +27,12 @@ const Navbar = () => {
         <h1>BharatSocial</h1>
 
         <div className='navIcons '>
-          <Link to='/'><TiHomeOutline /></Link>
+          <Link to='/'><HomeRoundedIcon /></Link>
           <Link to='/home'>
-            <HiOutlineMoon /></Link>
-          <Link to='/more'>
+            <DarkModeIcon /></Link>
+          <span className='m-navbar' title='Setting'>
             <MdGridView />
-          </Link>
+          </span>
         </div>
 
         <div className="search">

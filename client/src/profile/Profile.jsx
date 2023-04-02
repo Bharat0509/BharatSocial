@@ -104,11 +104,11 @@ const Profile = () => {
                 <MdVerifiedUser />
                 <span>{capitalize(currentUser?.username)}</span>
               </div>
+              <div >
+                <BsThreeDots />
+              </div>
             </div>
-            <div className="contact">
-              <MdEmail />
-              <BsThreeDots />
-            </div>
+
           </div>
           <div className="uStatus">
             <div className="followers">Followers : <span>{currentUser?.followers?.length}</span></div>

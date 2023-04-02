@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 import AuthRoutes from './Routes/AuthRoutes.js'
 import UserRoutes from './Routes/UserRoutes.js'
 import PostRoutes from './Routes/PostRoutes.js'
-
+import CommentRoute from './Routes/commentRoutes.js'
 
 //Middlewaress
 import ErrorHandlerMiddleware from './middlewares/error.js'
@@ -70,6 +70,7 @@ cloudinary.config({
 app.use('/auth', AuthRoutes)
 app.use('/users', UserRoutes)
 app.use('/posts', PostRoutes)
+app.use('/comments',CommentRoute)
 
 app.use(express.static(path.join(__dirname, '../client/build')))
 app.get('*', (req, res) => {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -9,8 +9,6 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Skeleton from '@mui/material/Skeleton';
-
-import EditIcon from '@mui/icons-material/Edit';
 import CardActions from '@mui/material/CardActions';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
@@ -22,8 +20,8 @@ import MenuItem from '@mui/material/MenuItem';
 import dayjs from 'dayjs'
 import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, dislikePost, likePost } from '../../Actions/PostAction';
-import { red } from '@mui/material/colors';
-
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { getComments, newComment } from '../../Actions/CommentAction';
 
 
 var relativeTime = require('dayjs/plugin/relativeTime')
@@ -53,19 +51,39 @@ function Media({ loading, data }) {
     const dispatch = useDispatch();
 
     const { user } = useSelector(state => state.authReducers)
+    const { likeDislikeLoading, likeDislikeError, comments, loading: postLoading } = useSelector(state => state.postReducer)
     const [expanded, setExpanded] = React.useState(false);
 
+    const [comment, setComment] = React.useState('')
+    const [isOpen, setIsOpen] = React.useState(false)
+    const submitCommentToggle = () => {
+        setIsOpen(!isOpen)
+    }
+    const commentSubmitHandler = () => {
+        const commentData = {
+            'comment': comment,
+            "post": data._id
+        }
+        dispatch(newComment(commentData));
+        setIsOpen(false);
+    }
+
     const handleExpandClick = () => {
-        setExpanded(!expanded);
+        if (!expanded) {
+            dispatch(getComments(data._id));
+
+        }
+        if (!postLoading)
+            setExpanded(!expanded);
     };
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const [isLiked, setIsLiked] = React.useState('')
+    const [isLiked, setIsLiked] = React.useState(data?.likes?.includes(user._id) ? "red" : "")
     const handleLike = (e) => {
-
+        if (likeDislikeLoading) return false;
         { isLiked === "red" ? setIsLiked("") : setIsLiked("red") }
-        if (isLiked === "red") {
+        if (isLiked !== "red") {
             dispatch(likePost(data._id, user._id));
         }
         else {
@@ -79,12 +97,17 @@ function Media({ loading, data }) {
     };
     const handleClose = async (e) => {
         if (e.target.innerText === "Delete Post") {
-            await dispatch(deletePost(data._id))
+            dispatch(deletePost(data._id))
         }
         setAnchorEl(null);
     };
 
+    React.useEffect(
+        () => {
 
+        },
+        [postLoading, comments]
+    )
     return (
         <Card sx={{ m: 1 }}>
             <CardHeader
@@ -153,7 +176,7 @@ function Media({ loading, data }) {
                     loading ? (
                         <Skeleton animation="wave" height={20} width="40%" />
                     ) : (data &&
-                        `${dayjs(data.updatedAt).toNow(true)} ago`
+                        `${dayjs(data.createdAt).toNow(true)} ago`
                     )
                 }
             />
@@ -202,68 +225,104 @@ function Media({ loading, data }) {
                         </ExpandMore>
                     </CardActions>
 
+
+
                     <Collapse in={expanded} timeout="auto" unmountOnExit>
+
                         <CardContent>
-                            <CardHeader
-                                avatar={
-                                    loading ? (
-                                        <Skeleton animation="wave" variant="circular" width={40} height={40} />
-                                    ) : (
-                                        <Avatar
-                                            alt="Ted talk"
-                                            src={`${data && data.user && data.user.profilePicture}`}
-                                        />
-                                    )
-                                }
-                                title={
-                                    loading ? (
-                                        <Skeleton
-                                            animation="wave"
-                                            height={20}
-                                            width="80%"
-                                            style={{ marginBottom: 6 }}
-                                        />
-                                    ) : (data ?
-                                        `${data.username} ` : "User"
-                                    )
-                                }
-                                subheader={
-                                    loading ? (
-                                        <Skeleton animation="wave" height={20} width="40%" />
-                                    ) : (
-                                        '5 hours ago'
-                                    )
-                                }
-                            />
-                            {loading ? (
-                                <Skeleton sx={{ height: 400 }} animation="wave" variant="rectangular" />
-                            ) : (
-                                data && data.postImage &&
-
-                                <CardMedia
-                                    component="img"
-                                    image={data.postImage.url}
-                                    alt={`${data.description}`}
-                                />
-
-                            )}
-
-                            <CardContent>
-                                {loading ? (
-                                    <React.Fragment>
-                                        <Skeleton animation="wave" height={10} style={{ marginBottom: 6 }} />
-                                        <Skeleton animation="wave" height={10} width="80%" />
-                                    </React.Fragment>
-                                ) : (
-                                    <Typography variant="body2" color="text.secondary" component="p">
-                                        {data &&
-                                            `${data.description} `
-                                        }
-                                    </Typography>
-                                )}
-                            </CardContent>
-
+                            <Button title='Add Comment' variant="outlined" onClick={e => setIsOpen(true)} >Add Comment</Button>
                         </CardContent>
+
+                        <>
+                            {
+                                comments && comments.length > 0 &&
+                                comments.map(
+                                    (comment) => {
+                                        <><CardContent style={{ borderTop: `1px solid rgb(228, 230, 246)` }}>
+                                            <CardHeader
+                                                width={10}
+                                                height={10}
+                                                avatar={
+                                                    loading ? (
+                                                        <Skeleton animation="wave" variant="circular" width={20} height={20} />
+                                                    ) : (
+                                                        <Avatar
+                                                            alt="Ted talk"
+                                                            src={`${data && data.user && data.user.profilePicture}`}
+                                                        />
+                                                    )
+                                                }
+                                                title={
+                                                    loading ? (
+                                                        <Skeleton
+                                                            animation="wave"
+                                                            height={10}
+                                                            width="80%"
+                                                            style={{ marginBottom: 2 }}
+                                                        />
+                                                    ) : (data ?
+                                                        `${data.username} ` : "User"
+                                                    )
+                                                }
+                                                subheader={
+                                                    loading ? (
+                                                        <Skeleton animation="wave" height={10} width="40%" />
+                                                    ) : (
+                                                        '5 hours ago'
+                                                    )
+                                                }
+
+                                            />
+                                            <CardContent>
+                                                {loading ? (
+                                                    <React.Fragment>
+                                                        <Skeleton animation="wave" height={10} style={{ marginBottom: 2 }} />
+                                                        <Skeleton animation="wave" height={10} width="80%" />
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <Typography variant="body2" color="text.secondary" component="p">
+                                                        {
+                                                            `${data?.description} `
+                                                        }
+                                                    </Typography>
+                                                )}
+                                            </CardContent>
+                                        </CardContent >
+                                        </>
+                                    }
+
+                                )
+                            }
+
+                        </>
+                        <CardContent>
+                            <Dialog
+                                aria-labelledby='simple-dialog-title'
+                                open={isOpen}
+                                onClose={submitCommentToggle}
+                            >
+                                <DialogTitle>Add Comment</DialogTitle>
+                                <DialogContent className="submitDialog">
+
+                                    <textarea
+                                        className='submitDialogTextArea'
+                                        style={{ padding: '1vmax', fontSize: '1.2vmax' }}
+                                        placeholder='Write  a Comments here...'
+                                        cols={30}
+                                        rows={5}
+                                        value={comment}
+                                        onChange={e => setComment(e.target.value)}
+                                    >
+                                    </textarea>
+                                    <DialogActions>
+                                        <Button onClick={submitCommentToggle} color='secondary'> Cancle</Button>
+                                        <Button onClick={commentSubmitHandler} color='primary'>Comment</Button>
+                                    </DialogActions>
+                                </DialogContent>
+                            </Dialog>
+                        </CardContent>
+
+
                     </Collapse>
                 </>
             }

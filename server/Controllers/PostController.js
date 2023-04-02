@@ -101,14 +101,15 @@ export const deletePost=catchAsyncError(async (req,res,next)=>{
 })
 
 //Like a post
-export const likePost=async (req,res)=>{
+export const likePost=async (req,res,next)=>{
     
     const postId=req.params.id;
-    const {userId}=req.body;
+    const {user:userId}=req.body;
 
-    if(!userId) res.status(500).json("Something Went Wrong !")
+    if(!userId) return next(new ErrorHandler("Something went Wrong",500))
     try {
         const post=await PostModel.findById(postId);
+        console.log(post);
         if(!post.likes.includes(userId)){
             await post.updateOne({$push:{likes:userId}});
             res.status(200).json({
@@ -116,25 +117,29 @@ export const likePost=async (req,res)=>{
                 post:"Post Liked "
             }); 
         } else{
-            res.status(403).json("Action Forbidden !!")
+            return next(new ErrorHandler("Actions Forbidden",403))
         }
         
     } catch (error) {
-        res.status(500).json(error);
+        return next(new ErrorHandler("Actions Forbidden",403))
     }
 }
 
 //Dislike a Post
-export const dislikePost=async (req,res)=>{
+export const dislikePost=async (req,res,next)=>{
     const postId=req.params.id;
-    const {userId}=req.body;
+    const {user:userId}=req.body;
     try {
         const post=await PostModel.findById(postId);
         if(post.likes.includes(userId)){
             await post.updateOne({$pull:{likes:userId}});
-            res.status(200).json("Post DisLiked !!"); 
+            res.status(200).json({
+                success:true,
+                post:"Post Disliked "
+            }); 
         } else{
-            res.status(403).json("Action Forbidden !!")
+            return next(new ErrorHandler("Actions Forbidden",403))
+            
         }
         
     } catch (error) {

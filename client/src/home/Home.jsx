@@ -6,15 +6,16 @@ import { useEffect } from 'react';
 import { getTimeLinePosts } from '../Actions/PostAction'
 import { toast } from 'react-toastify';
 import { clearErrors } from '../Actions/UserAction';
-import { CREATE_POST_RESET, DELETE_POST_RESET } from '../Constants/postConstans';
+import { CREATE_POST_RESET, DELETE_POST_RESET, LIKE_POST_RESET } from '../Constants/postConstans';
 import PostSkeleton from '../components/Skeltons/PostSkeleton';
+import Comments from '../components/chats/Comments';
 
 const Home = () => {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.authReducers);
   const { posts, loading, error } = useSelector((state) => state.postsReducer);
   const { isCreated } = useSelector(state => state.postReducer)
-  const { isDeleted } = useSelector(state => state.postReducer)
+  const { isDeleted, likeDislikeLoading, likeDislikeError } = useSelector(state => state.postReducer)
 
   useEffect(() => {
     console.log("user --> ", user);
@@ -28,13 +29,18 @@ const Home = () => {
       dispatch({ type: DELETE_POST_RESET })
 
     }
+
     if (isCreated) {
       toast("Post Published!");
       dispatch(getTimeLinePosts(user._id));
       dispatch({ type: CREATE_POST_RESET })
     }
+    if (likeDislikeError) {
+      dispatch({ type: LIKE_POST_RESET })
+    }
+
     dispatch(getTimeLinePosts(user._id));
-  }, [dispatch, error, isDeleted, isCreated])
+  }, [dispatch, error, isDeleted, isCreated, likeDislikeError])
 
 
   return (

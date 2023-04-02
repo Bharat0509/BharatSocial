@@ -1,80 +1,100 @@
 import { useSelector } from 'react-redux'
 import './leftbat.scss'
 import { Link } from 'react-router-dom'
+import ArticleIcon from '@mui/icons-material/Article';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import PeopleIcon from '@mui/icons-material/People';
+import EventIcon from '@mui/icons-material/Event';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import MessageIcon from '@mui/icons-material/Message';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Leftbar = () => {
   const { user } = useSelector(state => state.authReducers)
   return (
     <div className="leftbar">
       <div className="container">
+
         <div className="menu">
-          <Link to={`/profile/${user._id}`}>
+          <Link to={`/me/profile/${user._id}`}>
             <div className="user">
-              <img src={user?.profilePicture || ''} alt="" />
+              <AccountCircleIcon />
               {/* <span>{user?.username || ''}</span> */}
               <span>My Account</span>
             </div>
           </Link>
-          <div className="items">
-            <img src="2.png" alt="" />
-            <span>Friends</span>
-          </div>
-          <div className="items">
-            <img src="3.png" alt="" />
-            <span>Groups</span>
-          </div>
-          <div className="items">
-            <img src="https://e7.pngegg.com/pngimages/833/426/png-clipart-shopping-cart-shopping-cart.png" alt="" />
-            <span>MarketPlace</span>
-          </div>
 
-          <div className="items">
-            <img src="https://static.thenounproject.com/png/1523358-200.png" alt="" />
-            <span>Memories</span>
-          </div>
+
+
+          <Link to={'/me/friends'}>
+            <div className="items">
+
+              <PeopleIcon />
+              <span>Friends</span>
+
+            </div>
+          </Link>
+
+          <Link to={'/me/posts'}>
+            <div className="items">
+
+              <ArticleIcon />
+              <span>Your Posts</span>
+
+            </div>
+          </Link>
+
+          <Link to={'/explore'}>
+            <div className="items">
+
+              <TravelExploreIcon />
+              <span>Explore</span>
+
+            </div>
+          </Link>
+
         </div>
         <hr />
 
         <div className="menu">
-          <div className="user">
-            <img src="6.png" alt="" />
-            <span>Events</span>
-          </div>
-          <div className="items">
-            <img src="7.png" alt="" />
-            <span>Gaming</span>
-          </div>
-          <div className="items">
-            <img src="8.png" alt="" />
-            <span>Gallery</span>
-          </div>
+          <Link to={'/explore'}>
+            <div className="user">
 
-          <div className="items">
-            <img src="9.png" alt="" />
-            <span>Videos</span>
-          </div>
-          <div className="items">
-            <img src="10.png" alt="" />
-            <span>Messages</span>
-          </div>
+              <EventIcon />
+              <span>Events</span>
+
+            </div>
+          </Link>
+
+          <Link to={'/explore'}>
+            <div className="items">
+
+              <SportsEsportsIcon />
+              <span>Gaming</span>
+
+            </div>
+          </Link>
+
+          <Link to={'/explore'}>
+            <div className="items">
+
+              <BusinessCenterIcon />
+              <span>Sponsors</span>
+
+            </div>
+
+          </Link>
+
+
+          <Link to={'/explore'}>
+            <div className="items">
+
+              <MessageIcon />
+              <span>Messages</span>
+
+            </div></Link>
         </div>
-        <hr />
-        <div className="menu">
-          <div className="user">
-            <img src="11.png" alt="" />
-            <span>Fundraiser</span>
-          </div>
-          <div className="items">
-            <img src="12.png" alt="" />
-            <span>Tutorials</span>
-          </div>
-          <div className="items">
-            <img src="13.png" alt="" />
-            <span>Courses</span>
-          </div>
-
-        </div>
-
 
       </div>
     </div>
