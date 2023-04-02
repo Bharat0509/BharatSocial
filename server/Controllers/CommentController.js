@@ -1,4 +1,3 @@
-import PostModel from "../Models/postModels.js";
 import catchAsyncError from "../middlewares/catchAsyncError.js";
 import commentModel from "../Models/commentModels.js";
 
