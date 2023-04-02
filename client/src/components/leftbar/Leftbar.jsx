@@ -17,7 +17,7 @@ const Leftbar = () => {
       <div className="container">
 
         <div className="menu">
-          <Link to={`/me/profile/${user._id}`}>
+          <Link to={`/profile/${user._id}`}>
             <div className="user">
               <AccountCircleIcon />
               {/* <span>{user?.username || ''}</span> */}

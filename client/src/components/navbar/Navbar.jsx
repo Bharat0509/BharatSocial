@@ -46,7 +46,7 @@ const Navbar = () => {
           <MdOutlineEmail />
           <MdNotificationsNone /></div>
         <div className="user">
-          <Link to={`profile/${user._id}`}>
+          <Link to={`/profile/${user._id}`}>
             <img src={user?.profilePicture} alt="img" onClick={() => setShowMore(prev => !prev)} />
           </Link>
           {/* <span>{user?.username}</span> */}

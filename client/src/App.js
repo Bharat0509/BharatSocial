@@ -76,7 +76,7 @@ element: <Login />
         },
 
         {
-          path: '/me/profile/:id',
+          path: '/profile/:id',
           element: <Profile />
 
         }
