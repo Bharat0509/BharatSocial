@@ -5,6 +5,7 @@ import { MdGridView, MdOutlineSearch, MdPersonOutline, MdOutlineEmail, MdNotific
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
+import Search from '../SearchBar/Search'
 import { toast } from 'react-toastify'
 import { clearErrors } from '../../Actions/AuthAction'
 const Navbar = () => {
@@ -38,6 +39,7 @@ const Navbar = () => {
         <div className="search">
           <MdOutlineSearch />
           <input type="text" placeholder='Search...' />
+          {/* <Search /> */}
         </div>
       </div>
       <div className="right">

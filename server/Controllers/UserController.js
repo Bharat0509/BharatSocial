@@ -24,14 +24,16 @@ export const getUser=async (req,res,next)=>{
 
 //get Users
 export const getUsers=async (req,res,next)=>{
-
+    const name=req.query.name.toString();
+    let q='/'+name+'/i';
+    q=eval(q);
     try {
-        const users=await UserModel.find();
+        const users=await UserModel.find({username:q},'name username _id');
         users.map((user)=>{
             return user.password=null;
             
         })
-        res.status(200).json(users);
+        res.status(200).json({success:true,users:users});
     } catch (error) {
         return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
         
@@ -41,22 +43,9 @@ export const getUsers=async (req,res,next)=>{
 }
 
 
-export const loadUser=async ()=>{
-    const userId=req.user._id;
-
-     try {
-        const user=await UserModel.findById(userId);
-        if(!user) return next(new ErrorHandler(`User Not Found  `,404))
-        
-        const {password,...otherDetails}=user._doc;
-        sendToken(otherDetails,200,res)
-
-    } catch (error) {
-        return next(new ErrorHandler(`Unexptected Error Occured : ${error.reponse.data.message} `,500))
-   
-    } 
-
-    
+export const loadUser=async (req,res,next)=>{
+        if(!req.user) return next(new ErrorHandler(`User Not Found  `,404))
+        sendToken(req.user,200,res)
 }
 
 //Update user
@@ -95,7 +84,7 @@ export const deleteUser=async (req,res,next)=>{
             res.status(200).json("User Deleted Successfully !!");
              
         } catch (error) {
-            return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
+            return next(new ErrorHandler(`Unexptected Error Occured : ${error.reponse.message} `,500))
         }
     }
 }
@@ -106,10 +95,10 @@ export const deleteUser=async (req,res,next)=>{
 export const followUser=async (req,res,next)=>{
     const id=req.params.id;
 
-    const {currentUserId}=req.body;
+    const currentUserId=req.user._id;
 
     if(currentUserId===id){
-        res.status(403).json("Action Forbidden !!");
+       return next(new ErrorHandler("Action Forbidden !!",403))
 
     }
     else{
@@ -124,14 +113,17 @@ export const followUser=async (req,res,next)=>{
 
                await followingUser.updateOne({$push:{followings:id}});
 
-                res.status(200).json("User Followed !");
+                res.status(200).json({success:true,data:"User Followed !"});
             }
             else{
-                res.status(403).json("User is Already Followed By You !!")
+                return next(new ErrorHandler("User is Already Followed by you !!",403))
+                
             }
             
+
         } catch (error) {
-           return next(new ErrorHandler(`Unexptected Error Occured : ${error} `,500))
+            console.log("follow wrrro",error);
+           return next(new ErrorHandler(`Unexptected Error Occured : ${error.response} `,500))
         }
     }
 
@@ -145,10 +137,10 @@ export const followUser=async (req,res,next)=>{
 export const unFollowUser=async (req,res,next)=>{
     const id=req.params.id;
 
-    const {currentUserId}=req.body;
+    const {currentUserId}=req.user._id;
 
     if(currentUserId===id){
-        res.status(403).json("Action Forbidden !!");
+        return next(new ErrorHandler("Action Forbidden !!",403))
 
     }
     else{
@@ -163,10 +155,10 @@ export const unFollowUser=async (req,res,next)=>{
 
                await followingUser.updateOne({$pull:{followings:id}});
 
-                res.status(200).json("User Unfollowed !");
+                res.status(200).json({success:true,data:"User UnFollowed !"});
             }
             else{
-                res.status(403).json("User is Already Unfollowed By You !!")
+                return next(new ErrorHandler("User is Already UnFollowed by you !!",403))
             }
             
         } catch (error) {

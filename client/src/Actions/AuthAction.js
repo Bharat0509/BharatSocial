@@ -16,7 +16,6 @@ export const logIn=(formData)=>async(dispatch)=>{
         dispatch({type:LOGIN_SUCCESS,data:data})
 
     } catch (error) {
-        console.log("error--?",error.response.data);
         
         dispatch({type:LOGIN_FAIL,data:error.response.data})
         

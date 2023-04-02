@@ -22,7 +22,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deletePost, dislikePost, likePost } from '../../Actions/PostAction';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { getComments, newComment } from '../../Actions/CommentAction';
-
+import Linkify from 'react-linkify'
 
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
@@ -198,11 +198,13 @@ function Media({ loading, data }) {
                         <Skeleton animation="wave" height={10} width="80%" />
                     </React.Fragment>
                 ) : (
-                    <Typography variant="body2" color="text.secondary" component="p">
-                        {
-                            `${data?.description} `
-                        }
-                    </Typography>
+                    <Linkify>
+                        <Typography variant="body2" color="text.secondary" component="p">
+                            {
+                                `${data?.description} `
+                            }
+                        </Typography>
+                    </Linkify>
                 )}
             </CardContent>
             {

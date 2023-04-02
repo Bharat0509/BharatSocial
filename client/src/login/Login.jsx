@@ -36,7 +36,7 @@ const Login = () => {
       toast(`Welcome Mr.${user.username}`, { theme: 'light', type: 'success' })
       navigate('/')
     }
-  }, [dispatch, navigate, error])
+  }, [dispatch, navigate, error, user])
 
   return (
     <>

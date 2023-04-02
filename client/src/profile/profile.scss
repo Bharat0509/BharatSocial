@@ -36,8 +36,15 @@
     }
     .userName {
         display: flex;
+        flex-direction: column;
         align-items: center;
+        letter-spacing: 0.1vmax;
         justify-content: center;
+        h6 {
+            letter-spacing: 0;
+            font-size: 0.75vmax;
+            color: gray;
+        }
     }
     .userDetails {
         box-shadow: -1px -1px 5px 3px rgba(0, 0, 0, 0.12);
@@ -52,11 +59,11 @@
         background-color: white;
         border-radius: 0.25rem;
         margin: 0.75rem 2.5rem;
-        height: 20vmax;
+        height: 30vmax;
         padding-top: 3vmax;
 
         .userName {
-            font-size: 1.25vmax;
+            font-size: 1.5vmax;
             font-weight: bold;
             margin: 0vmax 0 0 0;
         }
@@ -158,14 +165,15 @@
             }
         }
         .followUser {
+            cursor: pointer;
             background-color: blue;
             color: white;
-            width: 70%;
+            width: 32%;
             border-radius: 0.25vmax;
             font-size: 1.5vmax;
             text-align: center;
             padding: 1vmax 2vmax;
-            margin-bottom: 4vmax;
+            margin-bottom: 2vmax;
         }
     }
     .posts {

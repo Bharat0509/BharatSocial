@@ -57,7 +57,7 @@ const Rightbar = () => {
 
 
       <div className="online">
-        <span> Friend Requests </span>
+        <span> Following Requests </span>
 
         <div className="user">
           <div className="detail">
@@ -91,10 +91,6 @@ const Rightbar = () => {
             </span>
           </div>
         </div>
-
-
-
-
       </div>
 
     </div>

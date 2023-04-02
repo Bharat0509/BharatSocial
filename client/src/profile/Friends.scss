@@ -1,0 +1,74 @@
+.friends {
+    .searchUsers {
+        margin-top: 1vmax;
+
+        p {
+            font-size: large;
+            margin: 0 1vmax;
+            font-weight: 500;
+            color: rgb(77, 71, 71);
+        }
+    }
+    background-color: white;
+    overflow-y: scroll;
+    height: 100vh;
+
+    .following-request {
+        background-color: white;
+        padding: 1.2rem;
+        border-radius: 0.625rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.2vmax;
+        > span {
+            font-weight: 500;
+            color: rgb(77, 71, 71);
+        }
+        .user {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            .detail {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                img {
+                    width: 2vmax;
+                    aspect-ratio: 1/1;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+            }
+            .status {
+                display: flex;
+                gap: 1vmax;
+                align-items: flex-start;
+                // justify-content: space-between;
+                .accept {
+                    background-color: rgb(240, 240, 240);
+                    border-radius: 0.25rem;
+                    padding: 0.4vmax;
+                    color: rgb(13, 180, 13);
+                    transition: all 300ms linear;
+                    cursor: pointer;
+                    &:hover {
+                        background-color: rgb(228, 227, 227);
+                    }
+                }
+
+                .reject {
+                    background-color: rgb(240, 240, 240);
+                    border-radius: 0.25rem;
+                    padding: 0.4vmax;
+                    color: rgb(236, 8, 8);
+                    &:hover {
+                        background-color: rgb(228, 227, 227);
+                    }
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}

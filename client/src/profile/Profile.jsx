@@ -9,27 +9,19 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';
-import { getPostData, getUserData } from '../Actions/UserAction'
+import { followUser, getPostData, getUserData } from '../Actions/UserAction'
 import PostSkeleton from '../components/Skeltons/PostSkeleton'
+import { FOLLOW_USER_RESET } from '../Constants/userConstant'
 
 const Profile = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.authReducers)
+  const { user, isFollowed } = useSelector(state => state.authReducers)
   const { profile: currentUser, loading: userLoading, error } = useSelector(state => state.profileReducer)
   const { posts, loading: postsLoading, error: postsError } = useSelector(state => state.postsReducer)
   const { isDeleted } = useSelector(state => state.postReducer)
 
   const [showOption, setShowOption] = useState(false)
-
-  function capitalize(input) {
-    var words = input?.split(' ');
-    var CapitalizedWords = [];
-    words?.forEach(element => {
-      CapitalizedWords.push(element[0].toUpperCase() + element.slice(1, element.length));
-    });
-    return CapitalizedWords.join(' ');
-  }
 
   useEffect(() => {
 
@@ -50,6 +42,11 @@ const Profile = () => {
       dispatch(getPostData(params.id));
 
     }
+    if (isFollowed) {
+      toast("User Followed !!", { type: 'success' })
+      dispatch(getUserData(params.id));
+      dispatch({ type: FOLLOW_USER_RESET })
+    }
 
   }, [params.id, error, isDeleted])
 
@@ -59,8 +56,8 @@ const Profile = () => {
 
   const editCoverPic = () => {
   }
-  const followSubmitHandler = () => {
-
+  const followSubmitHandler = (userId) => {
+    dispatch(followUser(userId));
   }
 
 
@@ -84,7 +81,8 @@ const Profile = () => {
 
         <div className="userDetails">
           <span className="userName">
-            {capitalize(currentUser?.username)}
+            {(currentUser?.name)}
+            <h6>@{currentUser.username}</h6>
           </span>
           <div className="options">
             <div className="socialMedia">
@@ -102,7 +100,7 @@ const Profile = () => {
               </div>
               <div className="name">
                 <MdVerifiedUser />
-                <span>{capitalize(currentUser?.username)}</span>
+                <span>{(currentUser?.username)}</span>
               </div>
               <div >
                 <BsThreeDots />
@@ -111,13 +109,21 @@ const Profile = () => {
 
           </div>
           <div className="uStatus">
-            <div className="followers">Followers : <span>{currentUser?.followers?.length}</span></div>
+            <div className="followers">Followers : <span>{currentUser ? currentUser.followers?.length : 0}</span></div>
             <div className="vertLine"></div>
-            <div className="followings">Followings : <span>{currentUser?.followings?.length}</span></div>
+            <div className="followings">Followings : <span>{currentUser ? currentUser.followings?.length : 0}</span></div>
 
           </div>
           {user._id !== currentUser._id &&
-            <div className="followUser button" onClick={followSubmitHandler}>Follow</div>
+            <div className="followUser button" onClick={e => followSubmitHandler(user._id)}>
+              {
+                user && user.followings.includes(currentUser._id) ?
+                  "Unfollow"
+                  :
+                  "Follow"
+
+              }
+            </div>
           }
 
         </div>

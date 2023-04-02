@@ -9,12 +9,14 @@ export const isAuthenticatedUser=catchAsyncError(async (req,res,next)=>{
     const {token}=req.cookies;
     
 
+
     if(!token){
         return next(new ErrorHandler("Please Login To Access More..."))
     }
     const decodedData=jwt.verify(token,process.env.JWT_KEY);
 
     req.user=await UserModel.findById(decodedData.id);
+    console.log("USER VERIFIED WITH TOKEN ",token);
     next();
 
 })
