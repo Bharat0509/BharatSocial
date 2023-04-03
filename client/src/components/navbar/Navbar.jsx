@@ -31,9 +31,7 @@ const Navbar = () => {
           <Link to='/'><HomeRoundedIcon /></Link>
           <Link to='/home'>
             <DarkModeIcon /></Link>
-          <span className='m-navbar' title='Setting'>
-            <MdGridView />
-          </span>
+
         </div>
 
         <div className="search">
@@ -42,6 +40,9 @@ const Navbar = () => {
           {/* <Search /> */}
         </div>
       </div>
+      <span className='m-navbar' title='Setting'>
+        <MdGridView />
+      </span>
       <div className="right">
         <div className="navIcons">
           <MdPersonOutline />

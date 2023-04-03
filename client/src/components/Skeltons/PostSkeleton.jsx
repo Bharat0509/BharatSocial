@@ -69,10 +69,12 @@ function Media({ loading, data }) {
     }
 
     const handleExpandClick = () => {
+
         if (!expanded) {
             dispatch(getComments(data._id));
 
         }
+
         if (!postLoading)
             setExpanded(!expanded);
     };
@@ -104,9 +106,13 @@ function Media({ loading, data }) {
 
     React.useEffect(
         () => {
-
+            if (!postLoading) {
+                if (expanded) {
+                    setExpanded(comments.post === data._id)
+                }
+            }
         },
-        [postLoading, comments]
+        [postLoading, comments, data._id, expanded]
     )
     return (
         <Card sx={{ m: 1 }}>
@@ -184,11 +190,13 @@ function Media({ loading, data }) {
                 <Skeleton sx={{ height: 400 }} animation="wave" variant="rectangular" />
             ) : (
                 data && data.postImage &&
-                <CardMedia
-                    component="img"
-                    image={data.postImage.url}
-                    alt={`${data.description}`}
-                />
+                <a href={data.postImage.url}>
+                    <CardMedia
+                        component="img"
+                        image={data.postImage.url}
+                        alt={`${data.description}`}
+                    />
+                </a>
             )}
 
             <CardContent>
@@ -229,7 +237,7 @@ function Media({ loading, data }) {
 
 
 
-                    <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <Collapse in={expanded} timeout="auto" unmountOnExit >
 
                         <CardContent>
                             <Button title='Add Comment' variant="outlined" onClick={e => setIsOpen(true)} >Add Comment</Button>
@@ -237,11 +245,12 @@ function Media({ loading, data }) {
 
                         <>
                             {
-                                comments && comments.length > 0 &&
-                                comments.map(
+                                comments && comments.comments && comments.comments.length > 0 && comments.post === data._id &&
+                                comments.comments.map(
                                     (comment) => {
-                                        <><CardContent style={{ borderTop: `1px solid rgb(228, 230, 246)` }}>
+                                        return <><CardContent style={{ borderTop: `1px solid rgb(228, 230, 246)`, margin: '0vmax', padding: '1.2vmax' }}>
                                             <CardHeader
+                                                style={{ margin: '0', padding: '0' }}
                                                 width={10}
                                                 height={10}
                                                 avatar={
@@ -250,7 +259,7 @@ function Media({ loading, data }) {
                                                     ) : (
                                                         <Avatar
                                                             alt="Ted talk"
-                                                            src={`${data && data.user && data.user.profilePicture}`}
+                                                            src={`${comment.user && comment.user.profilePicture}`}
                                                         />
                                                     )
                                                 }
@@ -262,29 +271,29 @@ function Media({ loading, data }) {
                                                             width="80%"
                                                             style={{ marginBottom: 2 }}
                                                         />
-                                                    ) : (data ?
-                                                        `${data.username} ` : "User"
+                                                    ) : (comment ?
+                                                        `${comment.user.username} ` : "User"
                                                     )
                                                 }
                                                 subheader={
                                                     loading ? (
                                                         <Skeleton animation="wave" height={10} width="40%" />
                                                     ) : (
-                                                        '5 hours ago'
+                                                        dayjs(comment.createdAt).toNow(true)
                                                     )
                                                 }
 
                                             />
-                                            <CardContent>
+                                            <CardContent style={{ marginTop: '10px', padding: '0' }}>
                                                 {loading ? (
                                                     <React.Fragment>
                                                         <Skeleton animation="wave" height={10} style={{ marginBottom: 2 }} />
                                                         <Skeleton animation="wave" height={10} width="80%" />
                                                     </React.Fragment>
                                                 ) : (
-                                                    <Typography variant="body2" color="text.secondary" component="p">
+                                                    <Typography variant="body2" color="text.secondary" component="p" >
                                                         {
-                                                            `${data?.description} `
+                                                            `${comment.comment} `
                                                         }
                                                     </Typography>
                                                 )}

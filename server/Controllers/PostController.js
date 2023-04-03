@@ -43,10 +43,9 @@ export const getPost =async (req,res)=>{
 
 // posts
 export const getPosts=async (req,res)=>{
-    // res.send("it's working")
-    // console.log("get Ost req");
+   
     const userId=req.params.id;
-    console.log("userId",userId);
+    
     try {
         const posts=await PostModel.find({user:userId}).populate({
             path:'user',
@@ -109,7 +108,7 @@ export const likePost=async (req,res,next)=>{
     if(!userId) return next(new ErrorHandler("Something went Wrong",500))
     try {
         const post=await PostModel.findById(postId);
-        console.log(post);
+       
         if(!post.likes.includes(userId)){
             await post.updateOne({$push:{likes:userId}});
             res.status(200).json({

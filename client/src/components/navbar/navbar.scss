@@ -8,7 +8,9 @@
     height: calc(53 / 16);
 
     background-color: white;
-
+    .m-navbar {
+        display: none;
+    }
     .left {
         display: flex;
 
@@ -91,15 +93,22 @@
 }
 
 // --------------------Media-Query------------------------
-$breakpoint-tablet: 768px;
+$breakpoint-tablet: 1024px;
 @media (max-width: $breakpoint-tablet) {
     .navbar {
         width: 100%;
         font-size: 0.75rem;
         padding: 1.5vmax;
         gap: 6.5rem;
+        .m-navbar {
+            display: block;
+            position: absolute;
+            font-size: 2vmax;
+            left: 2vmax;
+        }
         .left {
             h1 {
+                display: none;
                 font-size: 0.9rem;
             }
 

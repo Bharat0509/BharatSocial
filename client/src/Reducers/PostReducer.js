@@ -38,7 +38,7 @@ export const postsReducer=(state={posts:[],loading:false,error:null},action)=>{
 
 
 
-export const postReducer=(state={post:{},comments:[]},action)=>{
+export const postReducer=(state={post:{},comments:{}},action)=>{
     switch(action.type){
         case DELETE_POST_REQUEST:
         case UPDATE_POST_REQUEST:
@@ -117,7 +117,8 @@ export const postReducer=(state={post:{},comments:[]},action)=>{
                 ...state,
                 createLoading:false,
                 isCreated:false,
-                error:action.error
+                loading:false,
+                error:true
                 
             }
         case DELETE_POST_FAIL:

@@ -8,19 +8,20 @@ import Friends from './profile/Friends.jsx'
 import Navbar from './components/navbar/Navbar'
 import Leftbar from './components/leftbar/Leftbar'
 import Rightbar from './components/rightbar/Rightbar'
+import Posts from './components/Post/Posts.jsx'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { loadUser } from './Actions/UserAction'
 
 function App() {
   const dispatch=useDispatch();
   const {user,isAuthenticated }= useSelector(state => state.authReducers);
-  
+  const [isSideNavigationShow,setIsSideNavigationShow]=useState(false);
 
   useEffect(()=>{
     // if(isAuthenticated){
-      dispatch(loadUser())
+      // dispatch(loadUser())
     // }
     // else{
       // localStorage.clear();
@@ -82,13 +83,18 @@ element: <Login />
 
         },
         {
-          path: 'me/profile/:id',
+          path: '/me/profile/:id',
           element: <Profile />
 
         },
         {
           path: '/me/friends',
           element: <Friends />
+
+        },
+        {
+          path: '/me/posts',
+          element: <Posts />
 
         }
 

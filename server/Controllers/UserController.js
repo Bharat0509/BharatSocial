@@ -122,7 +122,7 @@ export const followUser=async (req,res,next)=>{
             
 
         } catch (error) {
-            console.log("follow wrrro",error);
+        
            return next(new ErrorHandler(`Unexptected Error Occured : ${error.response} `,500))
         }
     }

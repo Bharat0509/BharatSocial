@@ -42,7 +42,8 @@ export const getComments=catchAsyncError(async (req,res)=>{
         );
         res.status(200).json({
             success:true,
-            comments:comments
+            
+            comments:{post:postId,comments:comments}
         });
     } catch (error) {
         res.status(500).json(error);

@@ -39,7 +39,8 @@ export const getComments=(postId)=>async(dispatch)=>{
         dispatch({type:ALL_COMMENTS_SUCCESS,data:data.comments})
 
     } catch (error) {
-        dispatch({type:ALL_COMMENTS_FAIL,data:error?.reponse?.message})
+        console.log(error);
+        dispatch({type:ALL_COMMENTS_FAIL})
        
     }
 }
