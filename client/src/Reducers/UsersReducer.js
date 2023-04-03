@@ -34,7 +34,7 @@ export const usersReducer = (state = {users:[]} ,action) => {
     case "CLEAR_ERRORS":
         return {
             ...state,
-            user:null,
+            users:null,
             loading:false,
             error:null
         }

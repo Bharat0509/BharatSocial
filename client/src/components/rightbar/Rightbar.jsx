@@ -1,45 +1,8 @@
-import { useState } from 'react'
-import axios from 'axios'
 import './rightbar.scss'
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 
 const Rightbar = () => {
-  const { user: currentUser } = useSelector(state => state.authReducers);
-  const currentUserId = currentUser?._id;
-  const { loading } = useSelector(state => state.postReducer);
-  const [users, setUsers] = useState();
-  const dispatch = useDispatch();
-  const getUsers = async () => {
-    return await axios.get(`https://bharatsocial-infc.onrender.com/user/6385b23b7a3656125ab456b5/users`).then(res => res.data).then(res => {
-      setUsers(res);
-      filterUser();
-    });
-  }
-  const userFollow = async (followUserId, followingUserId) => {
-    console.log(followUserId);
-    const followingId = {
-      "currentUserId": followingUserId
-    }
-    dispatch({ type: 'LOADING_START' })
-    await axios.put(`https://bharatsocial-infc.onrender.com/user/${followUserId}/follow`, followingId).then(() => {
-      dispatch({ type: 'LOADING_SUCCESS' })
-    })
-  }
-  const filterUser = () => {
-    users?.filter(user => {
-      return user._id == currentUserId;
-    })
-    console.log(users);
-  }
 
-  useEffect(() => {
-    console.log(currentUser);
-    getUsers();
-
-
-  }, [loading, currentUser, currentUserId])
   return (
     <div className="rightbar">
       <div className="suggestion">

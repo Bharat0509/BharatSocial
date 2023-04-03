@@ -34,7 +34,7 @@ function App() {
     return (
       <>
         
-        {!isAuthenticated ? <Navigate to={'/login'}/>:
+        {(!isAuthenticated || user===null) ? <Navigate to={'/login'}/>:
           <div className='main'>
             <div className='nav'>
               <Navbar />

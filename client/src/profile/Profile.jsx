@@ -7,51 +7,63 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify';
-import { followUser, getPostData, getUserData } from '../Actions/UserAction'
+import { clearErrors, followUser, getPostData, getUserData, unfollowUser } from '../Actions/UserAction'
 import PostSkeleton from '../components/Skeltons/PostSkeleton'
 import { FOLLOW_USER_RESET } from '../Constants/userConstant'
 import { CardMedia, Skeleton, Typography } from '@mui/material'
+import { clearErrors as authClearError } from '../Actions/AuthAction'
+import { DELETE_POST_RESET } from '../Constants/postConstans'
 
 const Profile = () => {
   const params = useParams();
   const dispatch = useDispatch();
-  const { user, isFollowed } = useSelector(state => state.authReducers)
+  const { user, isFollowed, error: authError } = useSelector(state => state.authReducers)
   const { profile: currentUser, loading: userLoading, error } = useSelector(state => state.profileReducer)
-  const { posts, loading: postsLoading } = useSelector(state => state.postsReducer)
+  const { posts, loading: postsLoading, commentError, isCommented } = useSelector(state => state.postsReducer)
   const { isDeleted } = useSelector(state => state.postReducer)
+
+
+  const followSubmitHandler = (userId) => {
+    if (currentUser.followings.includes(userId)) {
+
+      dispatch(unfollowUser(userId));
+    }
+    else {
+      dispatch(followUser(userId));
+    }
+  }
 
 
   useEffect(() => {
 
 
-    if (currentUser._id != params.id) {
-      dispatch(getUserData(params.id));
-      dispatch(getPostData(params.id));
-    }
-    else {
-      dispatch(getPostData(params.id));
-    }
+
+    dispatch(getUserData(params.id));
+    dispatch(getPostData(params.id));
+
 
     if (error) {
       toast(error);
+      dispatch(clearErrors());
     }
     if (isDeleted) {
       toast("Post Deleted Successfully")
       dispatch(getPostData(params.id));
+      dispatch({ type: DELETE_POST_RESET })
 
     }
     if (isFollowed) {
       toast("User Followed !!", { type: 'success' })
-      dispatch(getUserData(params.id));
       dispatch({ type: FOLLOW_USER_RESET })
     }
+    if (authError) {
+      toast(authError, { type: 'info' })
+      dispatch(authClearError())
+    }
 
-  }, [params.id, error, isDeleted, currentUser._id, dispatch, isFollowed])
 
+  }, [params.id, error, isDeleted, isFollowed, authError,])
 
-  const followSubmitHandler = (userId) => {
-    dispatch(followUser(userId));
-  }
 
 
   return (
@@ -109,14 +121,14 @@ const Profile = () => {
                 </Typography>
               </span>
               <div className="options">
-                <div className="socialMedia">
+                {/* <div className="socialMedia">
                   <FaFacebook />
                   <FaLinkedinIn />
                   <FaInstagram />
                   <FaPinterestSquare />
                   <FaTwitter />
 
-                </div>
+                </div> */}
                 <div className="detail">
                   <div className="location">
                     <MdLocationPin />
@@ -141,7 +153,7 @@ const Profile = () => {
               {user._id !== currentUser._id &&
                 <div className="followUser button" onClick={() => followSubmitHandler(user._id)}>
                   {
-                    user && user.followings.includes(currentUser._id) ?
+                    user && currentUser.followings.includes(user._id) ?
                       "Unfollow"
                       :
                       "Follow"

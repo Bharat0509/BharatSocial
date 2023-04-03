@@ -23,15 +23,23 @@ import { deletePost, dislikePost, likePost } from '../../Actions/PostAction';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import { getComments, newComment } from '../../Actions/CommentAction';
 import Linkify from 'react-linkify'
+import { CREATE_COMMENTS_RESET } from '../../Constants/commentConstant';
+import { toast } from 'react-toastify';
+import { getUserData } from '../../Actions/UserAction';
 
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 
 const ITEM_HEIGHT = 48;
 
-const options = [
+const options1 = [
     "Edit Post",
     "Delete Post",
+    "More"
+];
+
+const options2 = [
+    "View Profile",
     "More"
 ];
 
@@ -51,7 +59,7 @@ function Media({ loading, data }) {
     const dispatch = useDispatch();
 
     const { user } = useSelector(state => state.authReducers)
-    const { likeDislikeLoading, likeDislikeError, comments, loading: postLoading } = useSelector(state => state.postReducer)
+    const { likeDislikeLoading, likeDislikeError, comments, loading: postLoading, isCommented, commentError } = useSelector(state => state.postReducer)
     const [expanded, setExpanded] = React.useState(false);
 
     const [comment, setComment] = React.useState('')
@@ -62,8 +70,9 @@ function Media({ loading, data }) {
     const commentSubmitHandler = () => {
         const commentData = {
             'comment': comment,
-            "post": data._id
+            "post": data?._id
         }
+
         dispatch(newComment(commentData));
         setIsOpen(false);
     }
@@ -71,7 +80,7 @@ function Media({ loading, data }) {
     const handleExpandClick = () => {
 
         if (!expanded) {
-            dispatch(getComments(data._id));
+            dispatch(getComments(data?._id));
 
         }
 
@@ -101,6 +110,9 @@ function Media({ loading, data }) {
         if (e.target.innerText === "Delete Post") {
             dispatch(deletePost(data._id))
         }
+        if (e.target.innerText === "View Profile") {
+            dispatch(getUserData(data._id))
+        }
         setAnchorEl(null);
     };
 
@@ -111,8 +123,18 @@ function Media({ loading, data }) {
                     setExpanded(comments.post === data._id)
                 }
             }
+            if (isCommented) {
+                toast("Comment Added ", { type: 'info' })
+
+                dispatch({ type: CREATE_COMMENTS_RESET })
+            }
+
+            if (commentError) {
+                toast(commentError, { type: 'info' })
+                dispatch({ type: CREATE_COMMENTS_RESET })
+            }
         },
-        [postLoading, comments, data._id, expanded]
+        [postLoading, comments, data?._id, expanded]
     )
     return (
         <Card sx={{ m: 1 }}>
@@ -121,7 +143,7 @@ function Media({ loading, data }) {
                     loading ? (
                         <Skeleton animation="wave" variant="circular" width={40} height={40} />
                     ) : (
-                        <Link to={`/profile/${data.user._id}`}>
+                        <Link to={`/profile/${data.user?._id}`}>
                             <Avatar
                                 alt="Ted talk"
                                 src={`${data && data.user && data.user.profilePicture}`}
@@ -157,11 +179,23 @@ function Media({ loading, data }) {
                                     },
                                 }}
                             >
-                                {options.map((option) => (
-                                    <MenuItem key={option} selected={option === 'Edit Post'} onClick={handleClose}>
-                                        {option}
-                                    </MenuItem>
-                                ))}
+                                {data && data.user._id === user._id
+
+                                    ?
+
+                                    options1.map((option) => (
+                                        <MenuItem key={option} selected={option === 'Edit Post'} onClick={handleClose}>
+                                            {option}
+                                        </MenuItem>
+                                    ))
+                                    :
+                                    options2.map((option) => (
+                                        <MenuItem key={option} selected={option === 'View Profile'} onClick={handleClose}>
+                                            {option}
+                                        </MenuItem>
+                                    ))
+
+                                }
                             </Menu>
                         </div>
                     )
@@ -174,8 +208,8 @@ function Media({ loading, data }) {
                             width="80%"
                             style={{ marginBottom: 6 }}
                         />
-                    ) : (data &&
-                        `${data.user.username} `
+                    ) : (data && data.user &&
+                        `${data.user?.username} `
                     )
                 }
                 subheader={

@@ -33,14 +33,14 @@ const authReducer = (state = {user:null,loading:false,isAuthenticated:false,erro
             ...state,
             
             loading:false,
-            isFollowed:action.data
+            isFollowed:true
             
         }
     case UNFOLLOW_USERS_SUCCESS:
             return {
             ...state,
             loading:false,
-            isUnfollowed:action.data
+            isUnfollowed:true
             
         }
     case FOLLOW_USER_FAIL:
@@ -65,8 +65,10 @@ const authReducer = (state = {user:null,loading:false,isAuthenticated:false,erro
         case UNFOLLOW_USERS_RESET:
         return {
             ...state,
+            isFollowed:null,
+            isUnfollowed:null,
             loading:false,
-            error:false
+            error:null
 
         }
     case LOGIN_SUCCESS:
@@ -109,7 +111,6 @@ const authReducer = (state = {user:null,loading:false,isAuthenticated:false,erro
     case "CLEAR_ERRORS":
         return {
             ...state,
-            user:null,
             loading:false,
             error:null
         }

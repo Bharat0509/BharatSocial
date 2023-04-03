@@ -9,7 +9,7 @@ let options = [''];
 export default function ControllableStates() {
 
     const dispatch = useDispatch();
-    const [value, setValue] = React.useState(options[0]);
+    const [value, setValue] = React.useState("");
     const { users, loading } = useSelector(state => state.usersReducer)
     const [inputValue, setInputValue] = React.useState('');
     const [showUsers, setShowUsers] = React.useState(true)
@@ -19,18 +19,21 @@ export default function ControllableStates() {
             setShowUsers(false)
         }, 500);
     }
+
+    const getData = () => {
+        dispatch(getUsers(inputValue))
+        setShowUsers(true);
+        options = users;
+        console.log("options --> ", options);
+    }
     React.useEffect(() => {
         if (inputValue.length) {
-            const getData = setTimeout(() => {
+            const timer = setTimeout(() => {
 
-                dispatch(getUsers(inputValue))
-                setShowUsers(true);
-                options = users;
-                console.log("options --> ", options);
+                getData();
             }, 500)
             return () => {
-                setShowUsers(false)
-                clearTimeout(getData)
+                clearTimeout(timer)
             }
         }
     }, [inputValue])
@@ -47,7 +50,7 @@ export default function ControllableStates() {
             </div>
             <div className="results-container">
                 {
-                    showUsers && users && users.length > 0 &&
+                    inputValue.length > 0 && showUsers && users && users.length > 0 &&
                     users.map(user =>
                         <div>
                             <Link to={`/profile/${user._id}`}>

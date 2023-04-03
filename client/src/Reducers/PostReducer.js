@@ -1,4 +1,4 @@
-import { ALL_COMMENTS_FAIL, ALL_COMMENTS_REQUEST, ALL_COMMENTS_RESET, ALL_COMMENTS_SUCCESS, CREATE_COMMENTS_FAIL, CREATE_COMMENTS_REQUEST, CREATE_COMMENTS_SUCCESS } from "../Constants/commentConstant";
+import { ALL_COMMENTS_FAIL, ALL_COMMENTS_REQUEST, ALL_COMMENTS_RESET, ALL_COMMENTS_SUCCESS, CREATE_COMMENTS_FAIL, CREATE_COMMENTS_REQUEST, CREATE_COMMENTS_RESET, CREATE_COMMENTS_SUCCESS } from "../Constants/commentConstant";
 import { ALL_POSTS_FAIL, ALL_POSTS_REQUEST, ALL_POSTS_SUCCESS, CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_RESET, CREATE_POST_SUCCESS, DELETE_POST_FAIL, DELETE_POST_REQUEST, DELETE_POST_RESET, DELETE_POST_SUCCESS, DISLIKE_POST_FAIL, DISLIKE_POST_REQUEST, DISLIKE_POST_RESET, DISLIKE_POST_SUCCESS, LIKE_POST_FAIL, LIKE_POST_REQUEST, LIKE_POST_RESET, LIKE_POST_SUCCESS, UPDATE_POST_FAIL, UPDATE_POST_REQUEST, UPDATE_POST_RESET, UPDATE_POST_SUCCESS, USER_POSTS_FAIL, USER_POSTS_REQUEST, USER_POSTS_SUCCESS } from "../Constants/postConstans";
 
 export const postsReducer=(state={posts:[],loading:false,error:null},action)=>{
@@ -154,7 +154,7 @@ export const postReducer=(state={post:{},comments:{}},action)=>{
             return {
                 ...state,
                 loading:false,
-                isCommented:true
+                isCommented:action.data
             }
         case CREATE_COMMENTS_FAIL:
             return {
@@ -162,6 +162,13 @@ export const postReducer=(state={post:{},comments:{}},action)=>{
                 loading:false,
                 commentError:action.data,
                 isCommented:false
+            }
+        case CREATE_COMMENTS_RESET:
+            return {
+                ...state,
+                loading:false,
+                commentError:null,
+                isCommented:null
             }
         case ALL_COMMENTS_SUCCESS:  
              return {

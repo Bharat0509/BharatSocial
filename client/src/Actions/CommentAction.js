@@ -14,10 +14,11 @@ export const newComment=(commentData)=>async(dispatch)=>{
             }
         }
         const {data}=await Axios.post(`/comments/new`,commentData,config)
-        
+        console.log("Comment added successfullu ",data);
         dispatch({type:CREATE_COMMENTS_SUCCESS,data:data.success})
 
     } catch (error) {
+        console.log("Comment added error ",error);
         dispatch({type:CREATE_COMMENTS_FAIL,data:error?.reponse?.message})
        
     }

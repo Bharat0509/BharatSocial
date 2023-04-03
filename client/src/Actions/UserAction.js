@@ -76,10 +76,29 @@ export const followUser =  (userId)=>async (dispatch) => {
 
     try{
         const {data} = await Axios.put(`/users/${userId}/follow`)
-        dispatch({type:FOLLOW_USER_SUCCESS,data:data.success})
+        console.log("Follow user data",data);
+        dispatch({type:FOLLOW_USER_SUCCESS})
     }
     catch(error){
-        dispatch({type:FOLLOW_USER_FAIL,data:error})
+        console.log("Follow user data",error);
+        dispatch({type:FOLLOW_USER_FAIL,data:error.response.data.error})
+    }
+
+
+  }
+
+  //Get user Post Details 
+export const unfollowUser =  (userId)=>async (dispatch) => {
+    dispatch({type:FOLLOW_USER_REQUEST})
+
+    try{
+        const {data} = await Axios.put(`/users/${userId}/unfollow`)
+        console.log("niFollow user data",data);
+        dispatch({type:FOLLOW_USER_SUCCESS})
+    }
+    catch(error){
+        console.log("unFollow user error",error);
+        dispatch({type:FOLLOW_USER_FAIL,data:error.response.data.error})
     }
 
 

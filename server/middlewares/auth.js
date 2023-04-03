@@ -16,7 +16,6 @@ export const isAuthenticatedUser=catchAsyncError(async (req,res,next)=>{
     const decodedData=jwt.verify(token,process.env.JWT_KEY);
 
     req.user=await UserModel.findById(decodedData.id);
-    console.log("USER VERIFIED WITH TOKEN ",token);
     next();
 
 })
