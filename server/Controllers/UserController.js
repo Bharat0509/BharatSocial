@@ -2,7 +2,7 @@ import UserModel from "../Models/userModels.js";
 import bcrypt from 'bcrypt'
 import ErrorHandler from "../utils/ErrorHandler.js";
 import sendToken from "../utils/jwtToken.js";
-
+import mongoose from "mongoose";
 
 
 export const getUser=async (req,res,next)=>{
@@ -93,9 +93,10 @@ export const deleteUser=async (req,res,next)=>{
 
 //Follow a User
 export const followUser=async (req,res,next)=>{
-    const id=req.params.id;
+    const id=mongoose.Types.ObjectId(req.params.id);
 
-    const currentUserId=req.user._id;
+const currentUserId = mongoose.Types.ObjectId(req.user._id) 
+
 
     if(currentUserId===id){
        return next(new ErrorHandler("Action Forbidden !!",403))
@@ -135,9 +136,10 @@ export const followUser=async (req,res,next)=>{
 //Unfollow User
 
 export const unFollowUser=async (req,res,next)=>{
-    const id=req.params.id;
+    const id=mongoose.Types.ObjectId(req.params.id);
 
-    const {currentUserId}=req.user._id;
+const currentUserId = mongoose.Types.ObjectId(req.user._id) 
+
 
     if(currentUserId===id){
         return next(new ErrorHandler("Action Forbidden !!",403))

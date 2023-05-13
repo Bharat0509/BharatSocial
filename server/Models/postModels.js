@@ -2,10 +2,21 @@ import mongoose from 'mongoose'
 
 const postSchema = mongoose.Schema(
   {
+    userId: {
+      type: String
+    },
     user: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Users',
-      required: true
+      userId: {
+        type: String
+      },
+      username: {
+        type: String
+
+      },
+      profilePicture: {
+        type: String
+
+      }
     },
     description: String,
     likes: [],

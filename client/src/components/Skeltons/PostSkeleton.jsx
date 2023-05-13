@@ -93,6 +93,7 @@ function Media({ loading, data }) {
     const [isLiked, setIsLiked] = React.useState(data?.likes?.includes(user._id) ? "red" : "")
     const handleLike = (e) => {
         if (likeDislikeLoading) return false;
+        // eslint-disable-next-line no-lone-blocks
         { isLiked === "red" ? setIsLiked("") : setIsLiked("red") }
         if (isLiked !== "red") {
             dispatch(likePost(data._id, user._id));
@@ -134,7 +135,7 @@ function Media({ loading, data }) {
                 dispatch({ type: CREATE_COMMENTS_RESET })
             }
         },
-        [postLoading, comments, data?._id, expanded]
+        [postLoading, comments, data?._id, expanded, isCommented, commentError, dispatch]
     )
     return (
         <Card sx={{ m: 1 }}>
@@ -143,7 +144,7 @@ function Media({ loading, data }) {
                     loading ? (
                         <Skeleton animation="wave" variant="circular" width={40} height={40} />
                     ) : (
-                        <Link to={`/profile/${data.user?._id}`}>
+                        <Link to={`/profile/${data.user.userId}`}>
                             <Avatar
                                 alt="Ted talk"
                                 src={`${data && data.user && data.user.profilePicture}`}
@@ -179,7 +180,7 @@ function Media({ loading, data }) {
                                     },
                                 }}
                             >
-                                {data && data.user._id === user._id
+                                {data && data.user.userId === user._id
 
                                     ?
 

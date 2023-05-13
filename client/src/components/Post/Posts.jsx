@@ -15,8 +15,7 @@ const Posts = () => {
 
     useEffect(() => {
         dispatch(getPostData(user._id));
-
-    }, [])
+    }, [dispatch, user._id])
 
     return (
         <div className="posts-container">

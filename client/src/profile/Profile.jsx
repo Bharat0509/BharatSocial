@@ -24,7 +24,8 @@ const Profile = () => {
 
 
   const followSubmitHandler = (userId) => {
-    if (currentUser.followings.includes(userId)) {
+
+    if (currentUser.followers.includes(user._id)) {
 
       dispatch(unfollowUser(userId));
     }
@@ -62,7 +63,7 @@ const Profile = () => {
     }
 
 
-  }, [params.id, error, isDeleted, isFollowed, authError,])
+  }, [params.id, error, isDeleted, isFollowed, authError, dispatch])
 
 
 
@@ -151,9 +152,9 @@ const Profile = () => {
 
               </div>
               {user._id !== currentUser._id &&
-                <div className="followUser button" onClick={() => followSubmitHandler(user._id)}>
+                <div className="followUser button" onClick={() => followSubmitHandler(currentUser._id)}>
                   {
-                    user && currentUser.followings.includes(user._id) ?
+                    user && currentUser.followers.includes(user._id) ?
                       "Unfollow"
                       :
                       "Follow"
